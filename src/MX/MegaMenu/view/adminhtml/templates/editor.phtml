@@ -1,0 +1,62 @@
+<?php
+    /* @var $block MX\MegaMenu\Block\Adminhtml\Menu\Edit */
+
+    $menuJson = $block->getMenuJson();
+?>
+
+<div id="megamenu-editor" class="megamenu-editor" data-mage-init='{"MXMegaMenu":{"editUrl":"<?php echo $block->getEditFormUrl(); ?>","saveUrl":"<?php echo $block->getSaveFormUrl(); ?>"}}'>
+    <ul id="tabs-menu">
+        <li class="active">
+            <a  href="#" data-target="#megamenu-tab-settings"><?php echo __('Settings'); ?></a>
+        </li>
+        <li>
+            <a href="#" data-target="#megamenu-tab-editor"><?php echo __('Editor'); ?></a>
+        </li>
+    </ul>
+    <div id="megamenu-tab-settings" class="megamenu-tabs active">
+        <?php echo $block->getChildHtml('megamenu.edit.settings.form'); ?>
+    </div>
+    <div id="megamenu-tab-editor" class="megamenu-tabs">
+        <div class="actions">
+            <input type="button" class="btn-add action-primary" value="<?php echo __('Add Menu Item'); ?>" />
+        </div>
+        <form id="menu-items-form" method="post" action="">
+            <div class="dd nestable">
+                <ol class="structure"></ol>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script id="menu-item-template" type="text/x-magento-template">
+    <li class="menu-item dd-item dd-item-<%- data.id %>" data-id="<%- data.id %>">
+        <div class="dd-handle drag-menu" title="<?php echo __('Drag element here'); ?>">
+            <span class="fa fa-hand">&nbsp;</span>
+            <span class="label"><%- data.label %></span>
+        </div>
+        <div class="actions">
+            <a href="#" class="btn-edit" title="<?php echo __('Edit'); ?>">
+                <span class="fa fa-edit">&nbsp;</span>
+            </a>
+            <a href="#" class="btn-remove" title="<?php echo __('Remove'); ?>">
+                <span class="fa fa-remove">&nbsp;</span>
+            </a>
+        </div>
+        <div class="form">
+            <input type="hidden" class="data-provider" name="menu_item_dataprovider" value="" />
+        </div>
+    </li>
+</script>
+
+<script id="btn-expand-template" type="text/x-magento-template">
+    <button class="btn-caret btn-expand" data-action="expand" title="Expand"><span class="fa fa-caret-down">&nbsp;</span></button>
+</script>
+
+<script id="btn-collapse-template" type="text/x-magento-template">
+    <button class="btn-caret btn-collapse" data-action="collapse" title="Collapse"><span class="fa fa-caret-up">&nbsp;</span></button>
+</script>
+
+<script type="text/javascript">
+    var menuItemsData = '<?php echo $menuJson; ?>';
+    var menuModal = false;
+</script>

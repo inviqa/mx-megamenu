@@ -1,0 +1,13 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="MX_MegaMenu::css/megamenu.css" />
+    </head>
+    <body>
+        <referenceBlock name="catalog.topnav" remove="true" />
+        <referenceBlock name="store.menu">
+            <block class="Magento\Framework\View\Element\Template" name="mx.megamenu.topnav" template="MX_MegaMenu::topmenu.phtml" ifconfig="mx_megamenu/megamenu/enable">
+                <block class="MX\MegaMenu\Block\TopMenu" name="mx.megamenu.structure" template="MX_MegaMenu::topmenu/structure.phtml" />
+            </block>
+        </referenceBlock>
+    </body>
+</page>

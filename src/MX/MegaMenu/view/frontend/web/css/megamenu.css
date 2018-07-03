@@ -1,0 +1,29 @@
+.navigation > ul {
+    display: flex;
+}
+.mx-megamenu__submenu {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+}
+.mx-megamenu__header,
+.mx-megamenu__footer {
+    padding: 10px 0;
+}
+.mx-megamenu__content {
+    display: flex;
+}
+.mx-megamenu__content .mx_megamenu__sidebar {
+    padding: 10px;
+}
+.mx-megamenu__categories {
+    display: flex;
+}
+.mx-megamenu__category {
+    padding: 0 20px;
+}
+.mx-megamenu__category > ul {
+    display: flex !important;
+    flex-direction: column;
+}

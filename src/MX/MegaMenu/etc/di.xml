@@ -1,0 +1,61 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <preference for="MX\MegaMenu\Api\Data\MenuInterface" type="MX\MegaMenu\Model\Menu" />
+    <preference for="MX\MegaMenu\Api\MenuRepositoryInterface" type="MX\MegaMenu\Model\MenuRepository" />
+    <type name="Magento\Framework\Model\Entity\RepositoryFactory">
+        <arguments>
+            <argument name="entities" xsi:type="array">
+                <item name="MX\MegaMenu\Api\Data\MenuInterface" xsi:type="string">MX\MegaMenu\Api\MenuRepositoryInterface</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\EntityManager\MetadataPool">
+        <arguments>
+            <argument name="metadata" xsi:type="array">
+                <item name="MX\MegaMenu\Api\Data\MenuInterface" xsi:type="array">
+                    <item name="entityTableName" xsi:type="string">mx_megamenu</item>
+                    <item name="identifierField" xsi:type="string">menu_id</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\EntityManager\HydratorPool">
+        <arguments>
+            <argument name="hydrators" xsi:type="array">
+                <item name="MX\MegaMenu\Api\Data\MenuInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\EntityManager\Operation\ExtensionPool">
+        <arguments>
+            <argument name="extensionActions" xsi:type="array">
+                <item name="MX\MegaMenu\Api\Data\MenuInterface" xsi:type="array">
+                    <item name="read" xsi:type="array">
+                        <item name="storeReader" xsi:type="string">MX\MegaMenu\Model\ResourceModel\Menu\Relation\Store\ReadHandler</item>
+                        <item name="itemReader" xsi:type="string">MX\MegaMenu\Model\ResourceModel\Menu\Relation\Item\ReadHandler</item>
+                    </item>
+                    <item name="create" xsi:type="array">
+                        <item name="storeCreator" xsi:type="string">MX\MegaMenu\Model\ResourceModel\Menu\Relation\Store\SaveHandler</item>
+                        <item name="itemCreator" xsi:type="string">MX\MegaMenu\Model\ResourceModel\Menu\Relation\Item\SaveHandler</item>
+                    </item>
+                    <item name="update" xsi:type="array">
+                        <item name="storeUpdater" xsi:type="string">MX\MegaMenu\Model\ResourceModel\Menu\Relation\Store\SaveHandler</item>
+                        <item name="itemUpdater" xsi:type="string">MX\MegaMenu\Model\ResourceModel\Menu\Relation\Item\SaveHandler</item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="mx_megamenu_menu_listing_data_source" xsi:type="string">MX\MegaMenu\Model\ResourceModel\Menu\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="MX\MegaMenu\Model\ResourceModel\Menu\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">mx_megamenu</argument>
+            <argument name="resourceModel" xsi:type="string">MX\MegaMenu\Model\ResourceModel\Menu</argument>
+        </arguments>
+    </virtualType>
+</config>

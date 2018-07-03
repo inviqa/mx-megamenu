@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="styles"/>
+    <head>
+        <css src="MX_MegaMenu::css/lib/jquery.nestable.min.css" />
+        <css src="MX_MegaMenu::css/megamenu.css" />
+        <css src="MX_MegaMenu::css/form/element/toggle.css" />
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="MX\MegaMenu\Block\Adminhtml\Menu\Edit" name="menu_form_edit" template="MX_MegaMenu::editor.phtml">
+                <block class="MX\MegaMenu\Block\Adminhtml\Menu\Edit\Settings\Form" name="megamenu.edit.settings.form" template="MX_MegaMenu::editor/settings/form.phtml" />
+            </block>
+        </referenceContainer>
+    </body>
+</page>

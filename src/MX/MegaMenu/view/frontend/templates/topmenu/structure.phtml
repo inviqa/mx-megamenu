@@ -1,0 +1,74 @@
+<?php
+/** @var $block \MX\MegaMenu\Block\Topmenu */
+
+$structure = $block->getStructure();
+?>
+
+<?php if ($structure): ?>
+    <?php foreach ($structure as $item): ?>
+        <?php if ($item['status']): ?>
+            <li class="level0 level-top parent mx-megamenu__item">
+                <a href="<?php echo $item['link']; ?>" class="nav-anchor mx-megamenu__link">
+                    <span><?php echo $item['name']; ?></span>
+                </a>
+                <?php if ($block->canShowContent($item)): ?>
+                    <div class="level0 mx-megamenu__submenu submenu">
+                        <?php if ($item['header_status']): ?>
+                            <div class="mx-megamenu__header">
+                                <?php echo $item['header_content']; ?>
+                            </div>
+                        <?php endif; ?>
+                        <div class="mx-megamenu__content">
+                            <?php if ($item['leftside_status']): ?>
+                                <div class="mx-megamenu__sidebar mx-megamenu__sidebar--left">
+                                    <?php echo $item['leftside_content']; ?>
+                                </div>
+                            <?php endif; ?>
+                            <?php if ($item['content_status']): ?>
+                                <div class="mx-megamenu__main-content">
+                                    <?php echo $item['content_content']; ?>
+                                </div>
+                            <?php endif; ?>
+                            <?php if (isset($item['children'])): ?>
+                                <div class="mx-megamenu__categories">
+                                    <?php foreach ($item['children'] as $child): ?>
+                                        <?php if ($child['status'] && $child['content_categories']): ?>
+                                            <div class="level1 mx-megamenu__item mx-megamenu__category">
+                                                <?php $categories = $child['content_categories']; ?>
+                                                <?php if ($categories['category']): ?>
+                                                    <?php $category = $categories['category']; ?>
+                                                    <a href="javascript:;" class="nav-anchor mx-megamenu__link"><?php echo $category['name']; ?></a>
+                                                    <ul class="mx-megamenu__submenu">
+                                                        <?php foreach ($categories['children'] as $subcategory): ?>
+                                                            <li class="mx-megamenu__category-item">
+                                                                <a class="mx-megamenu__link" href="<?php echo $subcategory['link']; ?>">
+                                                                    <span><?php echo $subcategory['name']; ?></span>
+                                                                </a>
+                                                            </li>
+                                                        <?php endforeach; ?>
+                                                    </ul>
+                                                <?php endif; ?>
+                                            </div>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                </div>
+                            <?php endif; ?>
+                            <?php if ($item['rightside_status']): ?>
+                                <div class="mx-megamenu__sidebar mx-megamenu__sidebar--right">
+                                    <?php echo $item['rightside_content']; ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <?php if ($item['footer_status']): ?>
+                            <div class="mx-megamenu__footer">
+                                <?php echo $item['footer_content']; ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
+            </li>
+        <?php endif; ?>
+    <?php endforeach; ?>
+<?php endif; ?>
+
+

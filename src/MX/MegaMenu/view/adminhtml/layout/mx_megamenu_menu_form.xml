@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/layout_generic.xsd">
+    <container name="content">
+        <block class="MX\MegaMenu\Block\Adminhtml\Menu\Edit\Form" name="megamenu.edit.form" template="MX_MegaMenu::editor/form.phtml" />
+    </container>
+</layout>

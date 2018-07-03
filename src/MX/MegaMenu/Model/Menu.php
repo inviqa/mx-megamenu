@@ -1,0 +1,287 @@
+<?php
+
+namespace MX\MegaMenu\Model;
+
+use MX\MegaMenu\Model\Menu\Item as MenuItem;
+use MX\MegaMenu\Api\Data\MenuInterface;
+use MX\MegaMenu\Model\ResourceModel\Menu as ResourceMenu;
+use Magento\Framework\Model\AbstractModel;
+use Magento\Framework\DataObject\IdentityInterface;
+
+class Menu extends AbstractModel implements MenuInterface, IdentityInterface
+{
+    const CACHE_TAG = 'mx_megamenu';
+
+    /**
+     * Statuses
+     */
+    const STATUS_ENABLED = 1;
+    const STATUS_DISABLED = 0;
+
+    protected $_cacheTag = 'mx_megamenu';
+
+    protected $_eventPrefix = 'mx_megamenu';
+
+    protected function _construct()
+    {
+        $this->_init(ResourceMenu::class);
+    }
+
+    public function getIdentities()
+    {
+        return [self::CACHE_TAG . '_' . $this->getMenuId()];
+    }
+
+    /**
+     * Retrieve menu id
+     *
+     * @return integer
+     */
+    public function getMenuId()
+    {
+        return $this->getData(self::MENU_ID);
+    }
+
+    /**
+     * Retrieve name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->getData(self::NAME);
+    }
+
+    /**
+     * Retrieve link
+     *
+     * @return string
+     */
+    public function getLink()
+    {
+        return $this->getData(self::LINK);
+    }
+
+    /**
+     * Retrieve creation time
+     *
+     * @return string
+     */
+    public function getCreatedAt()
+    {
+        return $this->getData(self::CREATED_AT);
+    }
+
+    /**
+     * Retrieve update time
+     *
+     * @return string
+     */
+    public function getUpdatedAt()
+    {
+        return $this->getData(self::UPDATED_AT);
+    }
+
+    /**
+     * Get status
+     *
+     * @return boolean
+     */
+    public function getStatus()
+    {
+        return (bool)$this->getData(self::STATUS);
+    }
+
+    /**
+     * Receive page store ids
+     *
+     * @return mixed
+     */
+    public function getStores()
+    {
+        return $this->getData(self::STORE_ID);
+    }
+
+    /**
+     * Receive menu items
+     *
+     * @return array
+     */
+    public function getMenuItems()
+    {
+        if ($this->hasData(self::MENU_ITEMS)) {
+            return $this->getData(self::MENU_ITEMS);
+        }
+
+        $items = [];
+        $data = $this->_registry->registry('mx_megamenu_menu_items');
+        if ($data) {
+            $menuItems = json_decode($data, true);
+            if ($menuItems) {
+                $items = $menuItems;
+                $this->setData(self::MENU_ITEMS, $items);
+            }
+        }
+
+        return $items;
+    }
+
+    /**
+     * Get menu item ids
+     *
+     * @return array
+     */
+    public function getMenuItemIds()
+    {
+        $ids = [];
+        $items = $this->getMenuItems();
+
+        if (count($items)) {
+            foreach ($items as $item) {
+                $ids[] = $item['menu_item_id'];
+            }
+        }
+
+        return $ids;
+    }
+
+    /**
+     * Is active
+     *
+     * @return boolean
+     */
+    public function isActive()
+    {
+        $status = $this->getStatus();
+
+        return $status == self::STATUS_ENABLED;
+    }
+
+    /**
+     * Set ID
+     *
+     * @param integer $id
+     * @return MenuInterface
+     */
+    public function setMenuId($id)
+    {
+        return $this->setData(self::MENU_ID, $id);
+    }
+
+    /**
+     * Set Stores
+     *
+     * @param int|array $storeId
+     * @return $this
+     */
+    public function setStores($storeId)
+    {
+        return $this->setData(self::STORE_ID, $storeId);
+    }
+
+    /**
+     * Set NAME
+     *
+     * @param string $name
+     * @return MenuInterface
+     */
+    public function setName($name)
+    {
+        return $this->setData(self::NAME, $name);
+    }
+
+    /**
+     * Set Link
+     *
+     * @param string $link
+     * @return MenuInterface
+     */
+    public function setLink($link)
+    {
+        return $this->setData(self::NAME, $link);
+    }
+
+    /**
+     * Set creation time
+     *
+     * @param string $createdAt
+     * @return MenuInterface
+     */
+    public function setCreatedAt($createdAt)
+    {
+        return $this->setData(self::CREATED_AT, $createdAt);
+    }
+
+    /**
+     * Set update time
+     *
+     * @param string $updatedAt
+     * @return MenuInterface
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        return $this->setData(self::UPDATED_AT, $updatedAt);
+    }
+
+    /**
+     * Set status
+     *
+     * @param bool|int $status
+     * @return MenuInterface
+     */
+    public function setStatus($status)
+    {
+        return $this->setData(self::STATUS, $status);
+    }
+
+    /**
+     * Set menu items
+     *
+     * @param array $items
+     * @return $this
+     */
+    public function setMenuItems($items)
+    {
+        return $this->setData(self::MENU_ITEMS, $items);
+    }
+
+    /**
+     * Prepare menu's statuses.
+     *
+     * @return array
+     */
+    public function getAvailableStatuses()
+    {
+        return [
+            self::STATUS_ENABLED => __('Enabled'),
+            self::STATUS_DISABLED => __('Disabled')
+        ];
+    }
+
+    /**
+     * Get Processed Menu Items
+     *
+     * @return array
+     */
+    public function getProcessedMenuItems()
+    {
+        $result = [];
+
+        /** @var \MX\MegaMenu\Model\Menu\Item $menuItem */
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $menuItem = $objectManager->create(MenuItem::class);
+
+        foreach ($this->getMenuItems() as $item) {
+            $itemId = $item['menu_item_id'];
+            $parentId = $item['menu_item_parent_id'];
+
+            if ($item['menu_item_parent_id'] == 0) {
+                $result[$itemId] = $menuItem->getItemData($item);
+            } else {
+                $result[$parentId]['children'][] = $menuItem->getItemData($item);
+            }
+        }
+
+        return $result;
+    }
+}
