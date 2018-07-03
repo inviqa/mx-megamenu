@@ -16,6 +16,8 @@ class Item extends AbstractModel
     const STATUS_ENABLED = 1;
     const STATUS_DISABLED = 0;
 
+    const OFFSET_CATEGORY_ID = 1;
+
     const CONTENT_TYPE_CATEGORY = 'category';
     const CONTENT_TYPE_CONTENT = 'wysiwyg';
 
@@ -57,29 +59,31 @@ class Item extends AbstractModel
             $objectManager = ObjectManager::getInstance();
 
             $contentCategory = explode('/', $item['content_category']);
-            $categoryId = $contentCategory[1];
+            if ($contentCategory && isset($contentCategory[self::OFFSET_CATEGORY_ID])) {
+                $categoryId = $contentCategory[self::OFFSET_CATEGORY_ID];
 
-            /** @var CategoryFactory $categoryFactory */
-            $categoryFactory = $objectManager->create(CategoryFactory::class);
+                /** @var CategoryFactory $categoryFactory */
+                $categoryFactory = $objectManager->create(CategoryFactory::class);
 
-            // Parent Category
-            /** @var Category $category */
-            $category = $categoryFactory->create()->load($categoryId);
+                // Parent Category
+                /** @var Category $category */
+                $category = $categoryFactory->create()->load($categoryId);
 
-            $categories = [
-                'category' => $this->getCategoryData($category),
-                'children' => []
-            ];
+                $categories = [
+                    'category' => $this->getCategoryData($category),
+                    'children' => []
+                ];
 
-            // Subcategories
-            $subcategories = $category->getChildrenCategories();
-            if ($subcategories) {
-                foreach ($subcategories as $subcategory) {
-                    $categories['children'][] = $this->getCategoryData($subcategory);
+                // Subcategories
+                $subcategories = $category->getChildrenCategories();
+                if ($subcategories) {
+                    foreach ($subcategories as $subcategory) {
+                        $categories['children'][] = $this->getCategoryData($subcategory);
+                    }
                 }
-            }
 
-            return $categories;
+                return $categories;
+            }
         }
 
         return '';
