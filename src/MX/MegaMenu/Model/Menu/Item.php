@@ -3,10 +3,13 @@
 namespace MX\MegaMenu\Model\Menu;
 
 use Magento\Framework\Model\AbstractModel;
-use Magento\Framework\App\ObjectManager;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\Cms\Model\Template\FilterProvider;
+use Magento\Framework\Model\Context;
+use Magento\Framework\Registry;
+use Magento\Framework\Model\ResourceModel\AbstractResource;
+use Magento\Framework\Data\Collection\AbstractDb;
 
 class Item extends AbstractModel
 {
@@ -20,6 +23,30 @@ class Item extends AbstractModel
 
     const CONTENT_TYPE_CATEGORY = 'category';
     const CONTENT_TYPE_CONTENT = 'wysiwyg';
+
+    /**
+     * @var CategoryFactory
+     */
+    protected $categoryFactory;
+
+    /**
+     * @var FilterProvider
+     */
+    protected $filterProvider;
+
+    public function __construct(
+        Context $context,
+        Registry $registry,
+        CategoryFactory $categoryFactory,
+        FilterProvider $filterProvider,
+        AbstractResource $resource = null,
+        AbstractDb $resourceCollection = null,
+        array $data = []
+    ) {
+        $this->categoryFactory = $categoryFactory;
+        $this->filterProvider = $filterProvider;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
 
     /**
      * Get Item Data
@@ -56,18 +83,13 @@ class Item extends AbstractModel
     protected function getCategories($item)
     {
         if ($item['content_type'] === self::CONTENT_TYPE_CATEGORY) {
-            $objectManager = ObjectManager::getInstance();
-
             $contentCategory = explode('/', $item['content_category']);
             if ($contentCategory && isset($contentCategory[self::OFFSET_CATEGORY_ID])) {
                 $categoryId = $contentCategory[self::OFFSET_CATEGORY_ID];
 
-                /** @var CategoryFactory $categoryFactory */
-                $categoryFactory = $objectManager->create(CategoryFactory::class);
-
                 // Parent Category
                 /** @var Category $category */
-                $category = $categoryFactory->create()->load($categoryId);
+                $category = $this->categoryFactory->create()->load($categoryId);
 
                 $categories = [
                     'category' => $this->getCategoryData($category),
@@ -129,12 +151,7 @@ class Item extends AbstractModel
      */
     protected function getDecodedContent($content)
     {
-        $objectManager = ObjectManager::getInstance();
-
-        /** @var FilterProvider $filterProvider */
-        $filterProvider = $objectManager->create(FilterProvider::class);
-
-        return $filterProvider->getBlockFilter()->filter($content);
+        return $this->filterProvider->getBlockFilter()->filter($content);
     }
 
     /**

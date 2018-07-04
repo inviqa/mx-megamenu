@@ -7,6 +7,10 @@ use MX\MegaMenu\Api\Data\MenuInterface;
 use MX\MegaMenu\Model\ResourceModel\Menu as ResourceMenu;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\DataObject\IdentityInterface;
+use Magento\Framework\Model\Context;
+use Magento\Framework\Registry;
+use Magento\Framework\Model\ResourceModel\AbstractResource;
+use Magento\Framework\Data\Collection\AbstractDb;
 
 class Menu extends AbstractModel implements MenuInterface, IdentityInterface
 {
@@ -21,6 +25,23 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
     protected $_cacheTag = 'mx_megamenu';
 
     protected $_eventPrefix = 'mx_megamenu';
+
+    /**
+     * @var MenuItem
+     */
+    protected $menuItem;
+
+    public function __construct(
+        Context $context,
+        Registry $registry,
+        MenuItem $menuItem,
+        AbstractResource $resource = null,
+        AbstractDb $resourceCollection = null,
+        array $data = []
+    ) {
+        $this->menuItem = $menuItem;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
 
     protected function _construct()
     {
@@ -267,18 +288,14 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
     {
         $result = [];
 
-        /** @var \MX\MegaMenu\Model\Menu\Item $menuItem */
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $menuItem = $objectManager->create(MenuItem::class);
-
         foreach ($this->getMenuItems() as $item) {
             $itemId = $item['menu_item_id'];
             $parentId = $item['menu_item_parent_id'];
 
             if ($item['menu_item_parent_id'] == 0) {
-                $result[$itemId] = $menuItem->getItemData($item);
+                $result[$itemId] = $this->menuItem->getItemData($item);
             } else {
-                $result[$parentId]['children'][] = $menuItem->getItemData($item);
+                $result[$parentId]['children'][] = $this->menuItem->getItemData($item);
             }
         }
 
