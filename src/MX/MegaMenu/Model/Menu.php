@@ -156,11 +156,7 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
     public function getSortedMenuItems($items)
     {
         usort($items, function($previous, $next) {
-            if ($previous['sort_order'] == $next['sort_order']) {
-                return 0;
-            }
-
-            return ($previous['sort_order'] < $next['sort_order']) ? -1 : 1;
+            return ($previous['sort_order'] <=> $next['sort_order']);
         });
 
         return $items;
@@ -306,10 +302,6 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
     public function getProcessedMenuItems()
     {
         $result = [];
-
-        /** @var \MX\MegaMenu\Model\Menu\Item $menuItem */
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $menuItem = $objectManager->create(MenuItem::class);
 
         foreach ($this->getMenuItems() as $item) {
             $itemId = $item['menu_item_id'];
