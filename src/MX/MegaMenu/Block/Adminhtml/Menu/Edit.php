@@ -114,9 +114,8 @@ class Edit extends Container
     protected function encodeItems($items)
     {
         $encodedString = json_encode($items);
-        $encodedString = str_replace('\\\\', '\\\\\\\\', $encodedString);
 
-        return  str_replace('\\"' , '\\\\"' , $encodedString);
+        return addslashes($encodedString);
     }
 
     /**
