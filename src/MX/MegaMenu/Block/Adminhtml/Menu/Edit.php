@@ -79,7 +79,8 @@ class Edit extends Container
         $menuModel = $this->coreRegistry->registry('mx_megamenu_menu');
 
         if ($menuModel) {
-            return $this->encodeItems($menuModel->getMenuItems());
+            $items = $menuModel->getMenuItems();
+            return $this->encodeItems($items);
         }
 
         return '';
@@ -111,11 +112,17 @@ class Edit extends Container
      * @param array $items
      * @return mixed
      */
-    protected function encodeItems($items)
+    protected function encodeItems(&$items)
     {
-        $encodedString = json_encode($items);
+        foreach ($items as &$item) {
+            foreach ($item as $name => $value) {
+                if (strpos($name, '_content') !== false) {
+                    $item[$name] = base64_encode($value);
+                }
+            }
+        }
 
-        return addslashes($encodedString);
+        return json_encode($items);
     }
 
     /**

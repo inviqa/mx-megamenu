@@ -122,6 +122,37 @@ define([
             }
 
             return '';
+        },
+
+        encodeContent: function(name, value) {
+            if (name.match('_content')) {
+                value = this._escapeContent(value);
+
+                return window.btoa(value);
+            }
+
+            return value;
+        },
+
+        decodeContent: function(name, value) {
+            if (name.match('_content')) {
+                value = window.atob(value)
+
+                return this._escapeContent(value);
+            }
+
+            return value;
+        },
+
+        /**
+         * Escape content - workaround for html contents in widget textarea fields
+         *
+         * @param string content
+         * @returns string
+         * @private
+         */
+        _escapeContent: function(content) {
+            return content.replace(/&gt;\s+&lt;/g,'&gt;&lt;').replace(/\"g/, '&quot;').replace(/&quot;/g, "'");
         }
     });
 

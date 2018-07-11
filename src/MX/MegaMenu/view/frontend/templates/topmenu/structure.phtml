@@ -24,11 +24,6 @@ $structure = $block->getStructure();
                                     <?php echo $item['leftside_content']; ?>
                                 </div>
                             <?php endif; ?>
-                            <?php if ($item['content_status']): ?>
-                                <div class="mx-megamenu__main-content">
-                                    <?php echo $item['content_content']; ?>
-                                </div>
-                            <?php endif; ?>
                             <?php if (isset($item['children'])): ?>
                                 <div class="mx-megamenu__categories">
                                     <?php foreach ($item['children'] as $child): ?>
@@ -52,6 +47,12 @@ $structure = $block->getStructure();
                                         <?php endif; ?>
                                     <?php endforeach; ?>
                                 </div>
+                            <?php else: // Content is displayed if no children stuff is found ?>
+                                <?php if ($item['content_status']): ?>
+                                    <div class="mx-megamenu__main-content">
+                                        <?php echo $item['content_content']; ?>
+                                    </div>
+                                <?php endif; ?>
                             <?php endif; ?>
                             <?php if ($item['rightside_status']): ?>
                                 <div class="mx-megamenu__sidebar mx-megamenu__sidebar--right">
