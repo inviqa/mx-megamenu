@@ -91,7 +91,7 @@ define([
                         }
 
                         if ($formElement.is('input') || $formElement.is('textarea')) {
-                            $formElement.val(value);
+                            $formElement.val(formBuilder().decodeContent(params.name, value));
                         }
 
                         if ($formElement.hasClass('onoffswitch-checkbox')) {
@@ -130,7 +130,7 @@ define([
                 var name = $(el).attr('name'),
                     value = $(el).val();
 
-                formBuilder().saveHiddenElement(itemId, name, value);
+                formBuilder().saveHiddenElement(itemId, name, formBuilder().encodeContent(name, value));
             });
 
             // Save misc data - category name

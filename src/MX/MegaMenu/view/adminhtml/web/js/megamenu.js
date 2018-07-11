@@ -102,7 +102,7 @@ define([
 
                         // Get menu item data
                         if (!$(element).hasClass(dataProviderLabel) && self._canSaveMenuItem(item)) {
-                            itemsData[itemId][item.name] = item.value;
+                            itemsData[itemId][item.name] = formBuilder().decodeContent(item.name, item.value);
                         }
 
                         // Get parent
