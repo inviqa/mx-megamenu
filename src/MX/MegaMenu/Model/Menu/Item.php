@@ -4,7 +4,7 @@ namespace MX\MegaMenu\Model\Menu;
 
 use Magento\Framework\Model\AbstractModel;
 use Magento\Catalog\Model\Category;
-use Magento\Catalog\Model\CategoryFactory;
+use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Cms\Model\Template\FilterProvider;
 use Magento\Framework\Model\Context;
 use Magento\Framework\Registry;
@@ -25,9 +25,9 @@ class Item extends AbstractModel
     const CONTENT_TYPE_CONTENT = 'wysiwyg';
 
     /**
-     * @var CategoryFactory
+     * @var CategoryRepositoryInterface
      */
-    protected $categoryFactory;
+    protected $categoryRepository;
 
     /**
      * @var FilterProvider
@@ -37,13 +37,13 @@ class Item extends AbstractModel
     public function __construct(
         Context $context,
         Registry $registry,
-        CategoryFactory $categoryFactory,
+        CategoryRepositoryInterface $categoryRepository,
         FilterProvider $filterProvider,
         AbstractResource $resource = null,
         AbstractDb $resourceCollection = null,
         array $data = []
     ) {
-        $this->categoryFactory = $categoryFactory;
+        $this->categoryRepository = $categoryRepository;
         $this->filterProvider = $filterProvider;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -89,7 +89,7 @@ class Item extends AbstractModel
 
                 // Parent Category
                 /** @var Category $category */
-                $category = $this->categoryFactory->create()->load($categoryId);
+                $category = $this->categoryRepository->get($categoryId);
 
                 $categories = [
                     'category' => $this->getCategoryData($category),
@@ -98,10 +98,8 @@ class Item extends AbstractModel
 
                 // Subcategories
                 $subcategories = $category->getChildrenCategories();
-                if ($subcategories) {
-                    foreach ($subcategories as $subcategory) {
-                        $categories['children'][] = $this->getCategoryData($subcategory);
-                    }
+                foreach ($subcategories as $subcategory) {
+                    $categories['children'][] = $this->getCategoryData($subcategory);
                 }
 
                 return $categories;
