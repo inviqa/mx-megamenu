@@ -36,7 +36,7 @@ $structure = $block->getStructure();
                                                     <ul class="mx-megamenu__submenu">
                                                         <?php foreach ($categories['children'] as $subcategory): ?>
                                                             <li class="mx-megamenu__category-item">
-                                                                <a class="mx-megamenu__link" href="<?php echo $subcategory['link']; ?>">
+                                                                <a id="u-uid-<?php echo $subcategory['id']; ?>" class="mx-megamenu__link" href="<?php echo $subcategory['link']; ?>">
                                                                     <span><?php echo $subcategory['name']; ?></span>
                                                                 </a>
                                                             </li>

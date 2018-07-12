@@ -4,7 +4,7 @@ namespace MX\MegaMenu\Model\Menu;
 
 use Magento\Framework\Model\AbstractModel;
 use Magento\Catalog\Model\Category;
-use Magento\Catalog\Api\CategoryRepositoryInterface;
+use Magento\Catalog\Model\CategoryFactory;
 use Magento\Cms\Model\Template\FilterProvider;
 use Magento\Framework\Model\Context;
 use Magento\Framework\Registry;
@@ -25,9 +25,9 @@ class Item extends AbstractModel
     const CONTENT_TYPE_CONTENT = 'wysiwyg';
 
     /**
-     * @var CategoryRepositoryInterface
+     * @var CategoryFactory
      */
-    protected $categoryRepository;
+    protected $categoryFactory;
 
     /**
      * @var FilterProvider
@@ -37,13 +37,13 @@ class Item extends AbstractModel
     public function __construct(
         Context $context,
         Registry $registry,
-        CategoryRepositoryInterface $categoryRepository,
+        CategoryFactory $categoryFactory,
         FilterProvider $filterProvider,
         AbstractResource $resource = null,
         AbstractDb $resourceCollection = null,
         array $data = []
     ) {
-        $this->categoryRepository = $categoryRepository;
+        $this->categoryFactory = $categoryFactory;
         $this->filterProvider = $filterProvider;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -89,7 +89,7 @@ class Item extends AbstractModel
 
                 // Parent Category
                 /** @var Category $category */
-                $category = $this->categoryRepository->get($categoryId);
+                $category = $this->categoryFactory->create()->load($categoryId);
 
                 $categories = [
                     'category' => $this->getCategoryData($category),
@@ -98,8 +98,10 @@ class Item extends AbstractModel
 
                 // Subcategories
                 $subcategories = $category->getChildrenCategories();
-                foreach ($subcategories as $subcategory) {
-                    $categories['children'][] = $this->getCategoryData($subcategory);
+                if ($subcategories) {
+                    foreach ($subcategories as $subcategory) {
+                        $categories['children'][] = $this->getCategoryData($subcategory);
+                    }
                 }
 
                 return $categories;
@@ -121,6 +123,7 @@ class Item extends AbstractModel
 
         if ($category->getId() && $category->getIsActive() == 1) {
             $result = [
+                'id' => $category->getId(),
                 'name' => $category->getName(),
                 'link' => $category->getUrl(),
             ];
