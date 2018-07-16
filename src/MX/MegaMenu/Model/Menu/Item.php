@@ -121,6 +121,7 @@ class Item extends AbstractModel
 
         if ($category->getId() && $category->getIsActive() == 1) {
             $result = [
+                'id' => $category->getId(),
                 'name' => $category->getName(),
                 'link' => $category->getUrl(),
             ];
