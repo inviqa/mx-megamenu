@@ -88,17 +88,21 @@ class SaveHandler implements ExtensionInterface
             $connection->insertMultiple($table, $data);
         }
 
-        // Update existing items
+        /**
+         * Update existing items
+         */
         $menuItems = $entity->getMenuItems();
-        if (count($insert) == 0 && count($menuItems) > 0) {
+        if (count($oldItemIds) > 0 && count($menuItems) > 0) {
             foreach ($menuItems as $menuItem) {
-                $where = [
-                    $linkField . ' = ?' => (int)$entity->getData($linkField),
-                    'menu_item_id = (?)' => $menuItem['menu_item_id'],
-                ];
-                unset($menuItem['menu_id']);
-                unset($menuItem['menu_item_id']);
-                $connection->update($table, $menuItem, $where);
+                if (in_array($menuItem['menu_item_id'], $oldItemIds)) {
+                    $where = [
+                        $linkField . ' = ?' => (int)$entity->getData($linkField),
+                        'menu_item_id = (?)' => $menuItem['menu_item_id'],
+                    ];
+                    unset($menuItem['menu_id']);
+                    unset($menuItem['menu_item_id']);
+                    $connection->update($table, $menuItem, $where);
+                }
             }
         }
 
