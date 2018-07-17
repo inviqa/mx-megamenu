@@ -136,12 +136,23 @@ define([
 
         decodeContent: function(name, value) {
             if (name.match('_content')) {
-                value = window.atob(value)
+                value = window.atob(value);
+                value = this._decodeSpecialCharacters(value);
 
                 return this._escapeContent(value);
             }
 
             return value;
+        },
+
+        /**
+         * Decode special symbols e.g. &reg; &copyright;
+         * @param string content
+         * @returns {*}
+         * @private
+         */
+        _decodeSpecialCharacters: function(content) {
+            return content.replace(/{amp}/g, '&').replace(/{comma}/g, ';');
         },
 
         /**
