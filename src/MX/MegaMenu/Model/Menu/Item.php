@@ -122,7 +122,7 @@ class Item extends AbstractModel
     /**
      * Decode content
      *
-     * @param content $content
+     * @param string $content
      * @return string
      */
     public function decodeContent($content)
