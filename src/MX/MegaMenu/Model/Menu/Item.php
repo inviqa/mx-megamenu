@@ -75,6 +75,62 @@ class Item extends AbstractModel
     }
 
     /**
+     * Is content
+     *
+     * @param string $name
+     * @return boolean
+     */
+    public function isContent($name)
+    {
+        return strpos($name, '_content') !== false;
+    }
+
+    /**
+     * Encode entities - do not encode &amp; &quot; &lt; &gt;
+     * It's for very special cases: e.g. &reg; &copyright;
+     *
+     * @param string $content
+     * @return string
+     */
+    public function encodeSpecialCharacters($content)
+    {
+        return preg_replace('#(&)([^amp|quot|lt|gt].*?)(;)#', '{amp}$2{comma}', $content);
+    }
+
+    /**
+     * Decode entities - see encode special characters above
+     *
+     * @param string $content
+     * @return string
+     */
+    public function decodeSpecialCharacters($content)
+    {
+        return str_replace(['{amp}', '{comma}'], ['&', ';'], $content);
+    }
+
+    /**
+     * Encode content
+     *
+     * @param string $content
+     * @return string
+     */
+    public function encodeContent($content)
+    {
+        return htmlentities($content);
+    }
+
+    /**
+     * Decode content
+     *
+     * @param content $content
+     * @return string
+     */
+    public function decodeContent($content)
+    {
+        return html_entity_decode($content, ENT_QUOTES);
+    }
+
+    /**
      * Get categories
      *
      * @param array $item
@@ -150,7 +206,9 @@ class Item extends AbstractModel
      */
     protected function getDecodedContent($content)
     {
-        return $this->filterProvider->getBlockFilter()->filter($content);
+        return $this->decodeSpecialCharacters(
+            $this->filterProvider->getBlockFilter()->filter($content)
+        );
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace MX\MegaMenu\Block\Adminhtml\Menu;
 
 use MX\MegaMenu\Model\MenuFactory;
+use MX\MegaMenu\Model\Menu\ItemFactory as MenuItemFactory;
 use Magento\Backend\Block\Widget\Form\Container;
 use Magento\Backend\Block\Widget\Context;
 use Magento\Framework\Registry;
@@ -35,10 +36,16 @@ class Edit extends Container
     protected $menuFactory;
 
     /**
+     * @var MenuItemFactory
+     */
+    protected $menuItemFactory;
+
+    /**
      * @param Context $context
      * @param Registry $registry
      * @param ManagerInterface $messageManager
      * @param MenuFactory $menuFactory
+     * @param MenuItemFactory $menuItemFactory
      * @param array $data
      */
     public function __construct(
@@ -46,12 +53,14 @@ class Edit extends Container
         Registry $registry,
         ManagerInterface $messageManager,
         MenuFactory $menuFactory,
+        MenuItemFactory $menuItemFactory,
         array $data = []
     )
     {
         $this->coreRegistry = $registry;
         $this->messageManager = $messageManager;
         $this->menuFactory = $menuFactory;
+        $this->menuItemFactory = $menuItemFactory;
         parent::__construct($context, $data);
     }
 
@@ -114,9 +123,12 @@ class Edit extends Container
      */
     protected function encodeItems(&$items)
     {
+        $menuItem = $this->menuItemFactory->create();
         foreach ($items as &$item) {
             foreach ($item as $name => $value) {
-                if (strpos($name, '_content') !== false) {
+                if ($menuItem->isContent($name)) {
+                    $value = $menuItem->decodeContent($value);
+                    $value = $menuItem->encodeSpecialCharacters($value);
                     $item[$name] = base64_encode($value);
                 }
             }
