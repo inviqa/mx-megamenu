@@ -87,13 +87,12 @@ define([
                                     $items = $('.level1.mx-megamenu__item');
                                 }
 
-                                $items.not($item).removeClass('current');
+                                if ($items.length) {
+                                    $items.not($item).removeClass('current');
+                                }
                             }
 
                             $item.toggleClass('current');
-                        } else {
-                            // Redirect
-                            return true;
                         }
                     });
                 }
