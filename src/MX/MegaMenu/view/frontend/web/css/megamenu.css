@@ -1,29 +1,126 @@
-.navigation > ul {
+/* Fix the iOS background scrolling issue */
+.megamenu-init-toggle.nav-open,
+.megamenu-init-toggle body {
+    height: 100%;
+    overflow: hidden;
+}
+/* Fix the iOS background scrolling issue */
+
+.mx-megamenu .navigation > ul {
     display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
 }
-.mx-megamenu__submenu {
-    position: absolute;
-    left: 0;
-    width: 100%;
-    z-index: 100;
+
+.mx-megamenu .navigation .mx-megamenu__item.level-top {
+    padding: 0.5em;
 }
+
+.mx-megamenu .navigation .mx-megamenu__item.level-top .mx-megamenu__link {
+    display: block;
+    padding: 0.5em;
+}
+
+.mx-megamenu .navigation .mx-megamenu__item > .mx-megamenu__link > span {
+    display: block;
+}
+
+.mx-megamenu .navigation .mx-megamenu__item.level-top .mx-megamenu__submenu {
+    display: none;
+    margin-left: 1.25em;
+}
+
+.mx-megamenu .navigation .mx-megamenu__item.current > .mx-megamenu__submenu {
+    display: block;
+}
+
+.mx-megamenu__sidebar,
 .mx-megamenu__header,
 .mx-megamenu__footer {
-    padding: 10px 0;
+    display: none;
 }
-.mx-megamenu__content {
-    display: flex;
+
+@media screen and (max-width: 1024px) {
+    .navigation li.level0 {
+        border-bottom: 1px solid #cccccc;
+    }
 }
-.mx-megamenu__content .mx_megamenu__sidebar {
-    padding: 10px;
-}
-.mx-megamenu__categories {
-    display: flex;
-}
-.mx-megamenu__category {
-    padding: 0 20px;
-}
-.mx-megamenu__category > ul {
-    display: flex !important;
-    flex-direction: column;
+
+@media screen and (min-width: 1025px) {
+    .mx-megamenu .navigation > ul {
+        position: relative;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .mx-megamenu .navigation .mx-megamenu__item.level-top {
+        position: static;
+        padding: 0 1em;
+    }
+
+    .mx-megamenu .navigation .mx-megamenu__item.level-top.current > .mx-megamenu__submenu {
+        display: flex;
+        left: 0;
+        width: 100%;
+        border-color: #cccccc;
+        border-left: 0;
+        border-right: 0;
+        margin-left: 0;
+    }
+
+    .mx-megamenu .navigation .mx-megamenu__item.level-top > .mx-megamenu__link {
+        display: inline-block;
+        padding: 0;
+    }
+
+    .mx-megamenu .navigation .mx-megamenu__item.level-top.current > .mx-megamenu__link {
+        position: relative;
+    }
+
+    .mx-megamenu__content {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .mx-megamenu .navigation .mx-megamenu__item .mx-megamenu__categories {
+        display: flex;
+        width: 100%;
+    }
+
+    .mx-megamenu__main-content,
+    .mx-megamenu__categories {
+        padding: 0 1em;
+    }
+
+    .mx-megamenu .navigation .mx-megamenu__item .mx-megamenu__categories .mx-megamenu__category {
+        margin: 0 0.5em;
+    }
+
+    .mx-megamenu__item .mx-megamenu__categories .mx-megamenu__category>.mx-megamenu__link {
+        font-weight: bold;
+    }
+
+    .mx-megamenu .navigation .mx-megamenu__item .mx-megamenu__categories .mx-megamenu__submenu {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .mx-megamenu .navigation .mx-megamenu__item .mx-megamenu__categories .mx-megamenu__category-item .mx-megamenu__link {
+        padding: 0 3px;
+    }
+
+    .mx-megamenu__sidebar,
+    .mx-megamenu__header,
+    .mx-megamenu__footer {
+        display: flex;
+        width: auto;
+        text-align: center;
+    }
+
+    .mx-megamenu__header,
+    .mx-megamenu__footer {
+        align-self: center;
+    }
 }
