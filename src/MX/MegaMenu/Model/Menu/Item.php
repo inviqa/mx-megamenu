@@ -122,7 +122,7 @@ class Item extends AbstractModel
     /**
      * Decode content
      *
-     * @param string $content
+     * @param content $content
      * @return string
      */
     public function decodeContent($content)
@@ -206,9 +206,10 @@ class Item extends AbstractModel
      */
     protected function getDecodedContent($content)
     {
-        return $this->decodeSpecialCharacters(
-            $this->filterProvider->getBlockFilter()->filter($content)
-        );
+        $content = $this->decodeContent($content);
+        $content = $this->decodeSpecialCharacters($content);
+
+        return $this->filterProvider->getBlockFilter()->filter($content);
     }
 
     /**
