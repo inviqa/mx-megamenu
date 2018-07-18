@@ -206,9 +206,10 @@ class Item extends AbstractModel
      */
     protected function getDecodedContent($content)
     {
-        return $this->decodeSpecialCharacters(
-            $this->filterProvider->getBlockFilter()->filter($content)
-        );
+        $content = $this->decodeContent($content);
+        $content = $this->decodeSpecialCharacters($content);
+
+        return $this->filterProvider->getBlockFilter()->filter($content);
     }
 
     /**
