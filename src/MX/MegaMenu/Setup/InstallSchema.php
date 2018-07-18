@@ -51,6 +51,7 @@ class InstallSchema implements InstallSchemaInterface
                     [
                         'nullable' => false,
                         'unsigned' => true,
+                        'default' => 0
                     ],
                     'Menu Status'
                 )
@@ -114,6 +115,7 @@ class InstallSchema implements InstallSchemaInterface
                     [
                         'nullable' => false,
                         'unsigned' => true,
+                        'default' => 0
                     ],
                     'Menu Item Status'
                 )
@@ -142,6 +144,7 @@ class InstallSchema implements InstallSchemaInterface
                     [
                         'nullable' => false,
                         'unsigned' => true,
+                        'default' => 0
                     ],
                     'Menu Item Header Status'
                 )
@@ -161,6 +164,7 @@ class InstallSchema implements InstallSchemaInterface
                     [
                         'nullable' => false,
                         'unsigned' => true,
+                        'default' => 0
                     ],
                     'Menu Item Main Content Status'
                 )
@@ -198,6 +202,7 @@ class InstallSchema implements InstallSchemaInterface
                     [
                         'nullable' => false,
                         'unsigned' => true,
+                        'default' => 0
                     ],
                     'Menu Item Left Side Status'
                 )
@@ -217,6 +222,7 @@ class InstallSchema implements InstallSchemaInterface
                     [
                         'nullable' => false,
                         'unsigned' => true,
+                        'default' => 0
                     ],
                     'Menu Item Right Side Status'
                 )
@@ -236,6 +242,7 @@ class InstallSchema implements InstallSchemaInterface
                     [
                         'nullable' => false,
                         'unsigned' => true,
+                        'default' => 0
                     ],
                     'Menu Item Footer Status'
                 )
