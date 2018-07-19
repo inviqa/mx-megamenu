@@ -114,7 +114,11 @@ define([
                     });
 
                     // Get sort order
-                    itemsData[itemId]['sort_order'] = $(el).index();
+                    var sortOrder = $(el).index();
+                    if (itemsData[itemId]['menu_item_parent_id'] != 0) {
+                        sortOrder = (itemsData[itemId]['menu_item_parent_id'] * 100) + sortOrder;
+                    }
+                    itemsData[itemId]['sort_order'] = sortOrder;
                 });
 
                 if (itemsData !== '') {
