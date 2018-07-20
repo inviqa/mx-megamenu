@@ -4,6 +4,8 @@
         <add id="MX_MegaMenu::all" title="Mega Menu" module="MX_MegaMenu" sortOrder="10" resource="Magento_Backend::admin"/>
 		<add id="MX_MegaMenu::menu" title="Menu" module="MX_MegaMenu" sortOrder="20" resource="MX_MegaMenu::menu" parent="MX_MegaMenu::all" />
 		<add id="MX_MegaMenu::menu_manage" title="Manage" module="MX_MegaMenu" sortOrder="10" parent="MX_MegaMenu::menu" action="mx_megamenu/menu/index" resource="MX_MegaMenu::menu_manage"/>
-		<add id="MX_MegaMenu::menu_configuration" title="Settings" module="MX_MegaMenu" sortOrder="20" parent="MX_MegaMenu::menu" action="adminhtml/system_config/edit/section/mx_megamenu" resource="MX_MegaMenu::config_megamenu"/>
+		<add id="MX_MegaMenu::menu_import" title="Import" module="MX_MegaMenu" sortOrder="20" parent="MX_MegaMenu::menu" action="mx_megamenu/menu/import" resource="MX_MegaMenu::menu_import"/>
+		<add id="MX_MegaMenu::menu_export" title="Export" module="MX_MegaMenu" sortOrder="30" parent="MX_MegaMenu::menu" action="mx_megamenu/menu/export" resource="MX_MegaMenu::menu_export"/>
+		<add id="MX_MegaMenu::menu_configuration" title="Settings" module="MX_MegaMenu" sortOrder="40" parent="MX_MegaMenu::menu" action="adminhtml/system_config/edit/section/mx_megamenu" resource="MX_MegaMenu::config_megamenu"/>
 	</menu>
 </config>

@@ -6,7 +6,6 @@ use MX\MegaMenu\Controller\Adminhtml\Menu as MenuController;
 use MX\MegaMenu\Model\MenuFactory;
 use MX\MegaMenu\Api\MenuRepositoryInterface;
 use Magento\Backend\App\Action\Context;
-use Magento\Framework\Json\Helper\Data as JsonData;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Framework\Exception\LocalizedException;
@@ -117,19 +116,5 @@ class Save extends MenuController
         }
 
         return $this->sendHtmlResponse($response);
-    }
-
-    /**
-     * Send Response
-     *
-     * @param array $response
-     *
-     * @return string
-     */
-    public function sendHtmlResponse($response)
-    {
-        return $this->getResponse()->representJson(
-            $this->_objectManager->get(JsonData::class)->jsonEncode($response)
-        );
     }
 }

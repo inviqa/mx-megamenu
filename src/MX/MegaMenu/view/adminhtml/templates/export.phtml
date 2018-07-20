@@ -1,0 +1,14 @@
+<?php
+/* @var $block MX\MegaMenu\Block\Adminhtml\Menu\Export */
+
+?>
+
+<div class="megamenu-container" data-mage-init='{"MXMegaMenu":{"url": "<?php echo $block->getExportUrl(); ?>"}}'>
+    <div class="text">
+        <?php echo __('By clicking on the button below all menu will be exported to a JSON string and it will be automatically saved to your computer.'); ?>
+    </div>
+    <div class="actions">
+        <input type="button" class="btn-add action-primary export" value="<?php echo __('Export'); ?>" />
+    </div>
+    
+</div>

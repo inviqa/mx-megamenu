@@ -6,6 +6,7 @@ use Magento\Backend\App\Action;
 use Magento\Framework\Registry;
 use Magento\Backend\App\Action\Context;
 use Magento\Backend\Model\View\Result\Page;
+use Magento\Framework\Json\Helper\Data as JsonData;
 
 abstract class Menu extends Action
 {
@@ -34,6 +35,20 @@ abstract class Menu extends Action
     {
         $this->coreRegistry = $coreRegistry;
         parent::__construct($context);
+    }
+
+    /**
+     * Send Response
+     *
+     * @param array $response
+     *
+     * @return string
+     */
+    public function sendHtmlResponse($response)
+    {
+        return $this->getResponse()->representJson(
+            $this->_objectManager->get(JsonData::class)->jsonEncode($response)
+        );
     }
 
     /**

@@ -4,6 +4,7 @@ namespace MX\MegaMenu\Api;
 
 use MX\MegaMenu\Api\Data\MenuInterface;
 use MX\MegaMenu\Model\Menu;
+use MX\MegaMenu\Model\ResourceModel\Menu\Collection as MenuCollection;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 interface MenuRepositoryInterface
@@ -33,6 +34,14 @@ interface MenuRepositoryInterface
      * @return Menu
      */
     public function getByStoreId($storeId);
+
+    /**
+     * Get all items
+     *
+     * @return MenuCollection
+     * @throws NoSuchEntityException
+     */
+    public function getAllItems();
 
     /**
      * Delete Menu
