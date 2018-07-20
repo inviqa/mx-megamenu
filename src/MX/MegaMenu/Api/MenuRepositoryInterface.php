@@ -61,4 +61,12 @@ interface MenuRepositoryInterface
      * @throws NoSuchEntityException
      */
     public function deleteById($menuId);
+
+    /**
+     * Truncate tables
+     *
+     * @param MenuInterface $menu
+     * @param string $tableName
+     */
+    public function truncateTables(MenuInterface $menu);
 }

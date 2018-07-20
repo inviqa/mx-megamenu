@@ -6,14 +6,14 @@ use Magento\Backend\Block\Widget\Form\Container;
 use Magento\Backend\Block\Widget\Context;
 
 /**
- * Class Export
+ * Class Import
  *
  * @package MX\MegaMenu\Block\Adminhtml\Menu
  */
-class Export extends Container
+class Import extends Container
 {
     /**
-     * Initialize export block
+     * Initialize import block
      *
      * @return void
      */
@@ -31,12 +31,12 @@ class Export extends Container
     }
 
     /**
-     * Get Export Url
+     * Get Import Url
      *
      * @return string
      */
-    public function getExportUrl()
+    public function getImportUrl()
     {
-        return $this->getUrl('mx_megamenu/menu/exportpost');
+        return $this->getUrl('mx_megamenu/menu/importpost');
     }
 }

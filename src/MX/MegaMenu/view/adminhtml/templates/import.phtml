@@ -1,0 +1,19 @@
+<?php
+/* @var $block MX\MegaMenu\Block\Adminhtml\Menu\Import */
+
+?>
+
+<div class="megamenu-container" data-mage-init='{"MXMegaMenu":{}}'>
+    <div class="text">
+        <?php echo __('By clicking on the button below the specified data will be imported and all your previous data will be lost!'); ?>
+    </div>
+    <form class="form" method="post" action="<?php echo $block->getImportUrl(); ?>" enctype="multipart/form-data">
+        <div class="input-field">
+            <input class="file" type="file" name="file" accept="application/json">
+            <?php echo $this->getBlockHtml('formkey')?>
+        </div>
+        <div class="actions">
+            <input type="button" class="btn-add action-primary import" value="<?php echo __('Import'); ?>" />
+        </div>
+    </form>
+</div>

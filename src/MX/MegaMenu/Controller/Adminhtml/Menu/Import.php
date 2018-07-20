@@ -15,7 +15,8 @@ class Import extends MenuController
     protected $resultPageFactory;
 
     /**
-     * Index constructor.
+     * Constructor.
+     *
      * @param Context $context
      * @param Registry $registry
      * @param PageFactory $resultPageFactory

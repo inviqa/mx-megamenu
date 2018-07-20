@@ -6,7 +6,9 @@ define([
     "use strict";
 
     var $container,
-    $exportButton;
+        $exportButton,
+        $importButton,
+        $form;
 
     $.widget('mx.megaMenu', {
         options: {
@@ -15,7 +17,9 @@ define([
 
         _create: function() {
             $container = $('.megamenu-container');
+            $form = $container.find('.form');
             $exportButton = $container.find('.export');
+            $importButton = $container.find('.import');
 
             this.bind();
         },
@@ -25,6 +29,12 @@ define([
 
             $exportButton.on('click', function() {
                 self.doExport();
+            });
+
+            $importButton.on('click', function() {
+                if (confirm('Are you sure? All your current data will be lost!')) {
+                    self.doImport();
+                }
             });
         },
 
@@ -51,6 +61,14 @@ define([
                         }
                     }
                 });
+            }
+        },
+
+        doImport: function() {
+            if ($form.length && $form.find('.file').val()) {
+                $form.submit();
+            } else {
+                alert('You need to specify the file to upload.');
             }
         },
 

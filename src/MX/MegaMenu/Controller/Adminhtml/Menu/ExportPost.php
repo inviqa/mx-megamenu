@@ -10,7 +10,7 @@ use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Registry;
 
-class DoExport extends MenuController
+class ExportPost extends MenuController
 {
     /**
      * @var MenuRepositoryInterface

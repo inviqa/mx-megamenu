@@ -15,6 +15,13 @@ use Magento\Store\Model\StoreManagerInterface;
 class MenuRepository implements MenuRepositoryInterface
 {
     /**
+     * @var array
+     */
+    private $tableNames = [
+        'mx_megamenu_store', 'mx_megamenu_item', 'mx_megamenu'
+    ];
+
+    /**
      * @var ResourceMenu
      */
     protected $resource;
@@ -149,5 +156,29 @@ class MenuRepository implements MenuRepositoryInterface
     public function deleteById($menuId)
     {
         return $this->delete($this->getById($menuId));
+    }
+
+    /**
+     * Truncate tables
+     *
+     * @param MenuInterface $menu
+     * @param string $tableName
+     */
+    public function truncateTables(MenuInterface $menu)
+    {
+        $resource = $menu->getResource();
+        $connection = $resource->getConnection();
+
+        // Disable foreign key check for truncate
+        $sql = "SET FOREIGN_KEY_CHECKS=0;";
+        $result = $connection->query($sql);
+
+        foreach ($this->tableNames as $tableName) {
+            $connection->truncateTable($resource->getTable($tableName));
+        }
+
+        // Enable foreign key check for truncate
+        $sql = "SET FOREIGN_KEY_CHECKS=1;";
+        $result = $connection->query($sql);
     }
 }
