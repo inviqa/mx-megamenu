@@ -2,25 +2,36 @@
 
 namespace MX\MegaMenu\Controller\Adminhtml\Menu;
 
-use MX\MegaMenu\Model\Menu;
+use MX\MegaMenu\Controller\Adminhtml\Menu as MenuController;
+use MX\MegaMenu\Model\MenuFactory;
 use Magento\Backend\App\Action\Context;
-use Magento\Framework\View\Result\PageFactory;
-use Magento\Backend\App\Action;
+use Magento\Framework\Registry;
+use Magento\Framework\Json\Helper\Data as JsonDataHelper;
 
-class Delete extends Action
+class Delete extends MenuController
 {
     /**
-     * @var PageFactory
+     * @var MenuFactory
      */
-    protected $resultPageFactory;
+    protected $menuFactory;
 
+    /**
+     * Delete constructor.
+     *
+     * @param Context $context
+     * @param Registry $registry
+     * @param JsonDataHelper $jsonDataHelper
+     * @param MenuFactory $menuFactory
+     */
     public function __construct(
         Context $context,
-        PageFactory $resultPageFactory
+        Registry $registry,
+        JsonDataHelper $jsonDataHelper,
+        MenuFactory $menuFactory
     )
     {
-        parent::__construct($context);
-        $this->resultPageFactory = $resultPageFactory;
+        $this->menuFactory = $menuFactory;
+        parent::__construct($context, $registry, $jsonDataHelper);
     }
 
     public function execute()
@@ -29,7 +40,7 @@ class Delete extends Action
 
         $id = $this->getRequest()->getParam('menu_id');
         if ($id) {
-            $menuModel = $this->_objectManager->create(Menu::class);
+            $menuModel = $this->menuFactory->create();
             $menuModel->load($id);
 
             if (!$menuModel->getMenuId()) {

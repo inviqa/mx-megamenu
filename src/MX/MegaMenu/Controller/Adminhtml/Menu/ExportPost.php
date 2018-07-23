@@ -9,6 +9,7 @@ use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Registry;
+use Magento\Framework\Json\Helper\Data as JsonDataHelper;
 
 class ExportPost extends MenuController
 {
@@ -25,19 +26,21 @@ class ExportPost extends MenuController
     /**
      * @param Context $context
      * @param Registry $coreRegistry
+     * @param JsonDataHelper $jsonDataHelper
      * @param MenuFactory|null $menuFactory
      * @param MenuRepositoryInterface|null $menuRepository
      */
     public function __construct(
         Context $context,
         Registry $coreRegistry,
+        JsonDataHelper $jsonDataHelper,
         MenuFactory $menuFactory = null,
         MenuRepositoryInterface $menuRepository = null
     ) {
         $this->menuFactory = $menuFactory ?: ObjectManager::getInstance()->get(MenuFactory::class);
         $this->menuRepository = $menuRepository ?: ObjectManager::getInstance()->get(MenuRepositoryInterface::class);
 
-        parent::__construct($context, $coreRegistry);
+        parent::__construct($context, $coreRegistry, $jsonDataHelper);
     }
 
     public function execute()
@@ -52,17 +55,15 @@ class ExportPost extends MenuController
             $result = [];
             $items = $this->menuRepository->getAllItems();
 
-            if ($items->count()) {
-                foreach ($items as $item) {
-                    $id = $item['menu_id'];
-                    $menu = $this->menuRepository->getById($id);
-                    $result[$id] = $menu->getData();
+            foreach ($items as $item) {
+                $id = $item['menu_id'];
+                $menu = $this->menuRepository->getById($id);
+                $result[$id] = $menu->getData();
 
-                    $response['status'] = true;
-                    $response['result'] = json_encode($result);
+                $response['status'] = true;
+                $response['result'] = json_encode($result);
 
-                    $this->messageManager->addSuccessMessage(__('You successfully exported the menu items.'));
-                }
+                $this->messageManager->addSuccessMessage(__('You successfully exported the menu items.'));
             }
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());

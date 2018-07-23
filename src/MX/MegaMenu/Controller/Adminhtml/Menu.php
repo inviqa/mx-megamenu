@@ -5,8 +5,9 @@ namespace MX\MegaMenu\Controller\Adminhtml;
 use Magento\Backend\App\Action;
 use Magento\Framework\Registry;
 use Magento\Backend\App\Action\Context;
+use Magento\Framework\Json\Helper\Data as JsonDataHelper;
 use Magento\Backend\Model\View\Result\Page;
-use Magento\Framework\Json\Helper\Data as JsonData;
+use Magento\Framework\App\Response\Http;
 
 abstract class Menu extends Action
 {
@@ -18,6 +19,11 @@ abstract class Menu extends Action
     const ADMIN_RESOURCE = 'MX_MegaMenu::menu';
 
     /**
+     * @var JsonDataHelper
+     */
+    protected $jsonDataHelper;
+
+    /**
      * Core registry
      *
      * @var Registry
@@ -27,13 +33,16 @@ abstract class Menu extends Action
     /**
      * @param Context $context
      * @param Registry $coreRegistry
+     * @param JsonDataHelper $jsonDataHelper
      */
     public function __construct(
         Context $context,
-        Registry $coreRegistry
+        Registry $coreRegistry,
+        JsonDataHelper $jsonDataHelper
     )
     {
         $this->coreRegistry = $coreRegistry;
+        $this->jsonDataHelper = $jsonDataHelper;
         parent::__construct($context);
     }
 
@@ -42,12 +51,12 @@ abstract class Menu extends Action
      *
      * @param array $response
      *
-     * @return string
+     * @return Http
      */
     public function sendHtmlResponse($response)
     {
         return $this->getResponse()->representJson(
-            $this->_objectManager->get(JsonData::class)->jsonEncode($response)
+            $this->jsonDataHelper->jsonEncode($response)
         );
     }
 

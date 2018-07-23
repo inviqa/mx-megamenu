@@ -38,8 +38,7 @@ interface MenuRepositoryInterface
     /**
      * Get all items
      *
-     * @return MenuCollection
-     * @throws NoSuchEntityException
+     * @return \Magento\Framework\DataObject[]
      */
     public function getAllItems();
 
@@ -64,9 +63,6 @@ interface MenuRepositoryInterface
 
     /**
      * Truncate tables
-     *
-     * @param MenuInterface $menu
-     * @param string $tableName
-     */
-    public function truncateTables(MenuInterface $menu);
+     **/
+    public function deleteAll();
 }

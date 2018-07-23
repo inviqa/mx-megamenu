@@ -64,12 +64,6 @@ define([
                         $(this).removeClass('current');
                     });
 
-                    self.element.find('.level-top').find('.nav-anchor').on('click', function(e) {
-                        if ($(this).next('.level0.submenu').length) {
-                            e.preventDefault(); // Do not link to anywhere if there is submenu defined
-                        }
-                    });
-
                     /**
                      * New functionality - toggle
                      */
@@ -100,7 +94,7 @@ define([
                     self.element.find('.mx-megamenu__item > .mx-megamenu__link').on('click', function(e) {
                         $item = $(e.target).closest('.mx-megamenu__item');
 
-                        if (self._hasNoLink($(e.target).closest('.mx-megamenu__link'))) {
+                        if (self._canShowSubmenu($(e.target))) {
                             // Open, close
                             e.preventDefault();
 
@@ -123,6 +117,12 @@ define([
                     });
                 }
             });
+        },
+
+        _canShowSubmenu: function($item) {
+            var $link = $item.closest('.mx-megamenu__link');
+
+            return this._hasNoLink($link) || $link.next('.mx-megamenu__submenu').length
         },
 
         _hasNoLink: function($item) {

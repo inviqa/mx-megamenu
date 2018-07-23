@@ -66,11 +66,8 @@ class ImportHandler implements ImportHandlerInterface
      */
     protected function import($data)
     {
-        /** @var \MX\MegaMenu\Model\Menu $model */
-        $model = $this->menuFactory->create();
-
         // Truncate data from database
-        $this->menuRepository->truncateTables($model);
+        $this->menuRepository->deleteAll();
 
         // Fetch data
         $menuData = $this->decodeData($data);
@@ -117,6 +114,9 @@ class ImportHandler implements ImportHandlerInterface
         }
 
         // Save
+        /** @var \MX\MegaMenu\Model\Menu $model */
+        $model = $this->menuFactory->create();
+        
         foreach ($menuData as $menu) {
             $model->setData($menu);
             $this->menuRepository->save($model);

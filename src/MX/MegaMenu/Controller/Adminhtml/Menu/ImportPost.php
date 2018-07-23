@@ -9,6 +9,7 @@ use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Registry;
 use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\Json\Helper\Data as JsonDataHelper;
 
 class ImportPost extends MenuController
 {
@@ -20,16 +21,18 @@ class ImportPost extends MenuController
     /**
      * @param Context $context
      * @param Registry $coreRegistry
+     * @oaram JsonDataHelper $jsonDataHelper
      * @param ImportHandlerFactory $importHandler
      */
     public function __construct(
         Context $context,
         Registry $coreRegistry,
+        JsonDataHelper $jsonDataHelper,
         ImportHandlerFactory $importHandler
     ) {
         $this->importHandler = $importHandler;
 
-        parent::__construct($context, $coreRegistry);
+        parent::__construct($context, $coreRegistry, $jsonDataHelper);
     }
 
     public function execute()

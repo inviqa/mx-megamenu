@@ -6,6 +6,7 @@ use MX\MegaMenu\Controller\Adminhtml\Menu as MenuController;
 use MX\MegaMenu\Model\MenuFactory;
 use MX\MegaMenu\Api\MenuRepositoryInterface;
 use Magento\Backend\App\Action\Context;
+use Magento\Framework\Json\Helper\Data as JsonDataHelper;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Framework\Exception\LocalizedException;
@@ -31,6 +32,7 @@ class Save extends MenuController
     /**
      * @param Context $context
      * @param Registry $coreRegistry
+     * @param JsonDataHelper $jsonDataHelper
      * @param DataPersistorInterface $dataPersistor
      * @param MenuFactory|null $menuFactory
      * @param MenuRepositoryInterface|null $menuRepository
@@ -38,6 +40,7 @@ class Save extends MenuController
     public function __construct(
         Context $context,
         Registry $coreRegistry,
+        JsonDataHelper $jsonDataHelper,
         DataPersistorInterface $dataPersistor,
         MenuFactory $menuFactory = null,
         MenuRepositoryInterface $menuRepository = null
@@ -46,7 +49,7 @@ class Save extends MenuController
         $this->menuFactory = $menuFactory ?: ObjectManager::getInstance()->get(MenuFactory::class);
         $this->menuRepository = $menuRepository ?: ObjectManager::getInstance()->get(MenuRepositoryInterface::class);
 
-        parent::__construct($context, $coreRegistry);
+        parent::__construct($context, $coreRegistry, $jsonDataHelper);
     }
 
     /**
