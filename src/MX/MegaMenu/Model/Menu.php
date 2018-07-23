@@ -124,6 +124,22 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
     }
 
     /**
+     * Get sorted menu items
+     *
+     * @return array
+     */
+    public function getSortedMenuItems()
+    {
+        $items = $this->getMenuItems();
+
+        usort($items, function($previous, $next) {
+            return ($previous['sort_order'] <=> $next['sort_order']);
+        });
+
+        return $items;
+    }
+
+    /**
      * Receive menu items
      *
      * @return array
@@ -131,7 +147,7 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
     public function getMenuItems()
     {
         if ($this->hasData(self::MENU_ITEMS)) {
-            return $this->getSortedMenuItems($this->getData(self::MENU_ITEMS));
+            return $this->getData(self::MENU_ITEMS);
         }
 
         $items = [];
@@ -143,21 +159,6 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
                 $this->setData(self::MENU_ITEMS, $items);
             }
         }
-
-        return $this->getSortedMenuItems($items);
-    }
-
-    /**
-     * Get sorted menu items
-     *
-     * @param array $items
-     * @return array
-     */
-    public function getSortedMenuItems($items)
-    {
-        usort($items, function($previous, $next) {
-            return ($previous['sort_order'] <=> $next['sort_order']);
-        });
 
         return $items;
     }
@@ -314,7 +315,7 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
     {
         $result = [];
 
-        foreach ($this->getMenuItems() as $item) {
+        foreach ($this->getSortedMenuItems() as $item) {
             $itemId = $item['menu_item_id'];
             $parentId = $item['menu_item_parent_id'];
 

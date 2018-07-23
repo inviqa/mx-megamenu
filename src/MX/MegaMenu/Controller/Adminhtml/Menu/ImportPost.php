@@ -20,7 +20,7 @@ class ImportPost extends MenuController
     /**
      * @param Context $context
      * @param Registry $coreRegistry
-     * @param ImportHandlerInterface $importHandler
+     * @param ImportHandlerFactory $importHandler
      */
     public function __construct(
         Context $context,

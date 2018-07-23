@@ -34,7 +34,7 @@ class Import extends MenuController
     public function execute()
     {
         $resultPage = $this->resultPageFactory->create();
-        $resultPage->getConfig()->getTitle()->prepend((__('MX Mega Menu - Import')));
+        $resultPage->getConfig()->getTitle()->prepend(__('MX Mega Menu - Import'));
 
         return $resultPage;
     }

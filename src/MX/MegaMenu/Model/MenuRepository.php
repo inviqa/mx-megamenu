@@ -171,7 +171,7 @@ class MenuRepository implements MenuRepositoryInterface
 
         // Disable foreign key check for truncate
         $sql = "SET FOREIGN_KEY_CHECKS=0;";
-        $result = $connection->query($sql);
+        $connection->query($sql);
 
         foreach ($this->tableNames as $tableName) {
             $connection->truncateTable($resource->getTable($tableName));
@@ -179,6 +179,6 @@ class MenuRepository implements MenuRepositoryInterface
 
         // Enable foreign key check for truncate
         $sql = "SET FOREIGN_KEY_CHECKS=1;";
-        $result = $connection->query($sql);
+        $connection->query($sql);
     }
 }

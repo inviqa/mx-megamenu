@@ -62,7 +62,7 @@ class ImportHandler implements ImportHandlerInterface
     /**
      * Import data
      *
-     * @param array $data
+     * @param string $data
      */
     protected function import($data)
     {
@@ -74,6 +74,49 @@ class ImportHandler implements ImportHandlerInterface
 
         // Fetch data
         $menuData = $this->decodeData($data);
+
+        $newMenuId = 1;
+        $newItemId = 1;
+        $menuIdsRef = [];
+        $menuItemIdsRef = [];
+
+        foreach ($menuData as $menuId => $menu) {
+            $menuItems = [];
+            foreach ($menu['menu_items'] as $itemId => $item) {
+                // Gather old menu item id references
+                $menuItemIdsRef[$itemId] = $newItemId;
+
+                // Gather item data
+                $menuItems[$newItemId] = $item;
+                $menuItems[$newItemId]['menu_item_id'] = $newItemId;
+
+                $newItemId++;
+            }
+
+            // Unset old indexes and set new indexes
+            unset($menuData[$menuId]['menu_items']);
+            $menuData[$menuId]['menu_items'] = $menuItems;
+
+            // Gather old menu id references
+            $menuIdsRef[$menuId] = $newMenuId;
+            $newMenuId++;
+        }
+
+        // Assign references for the new ids
+        foreach ($menuData as $menuId => $menu) {
+            foreach ($menu['menu_items'] as $itemId => $item) {
+                $parentId = $item['menu_item_parent_id'];
+                if ($item['menu_item_parent_id'] > 0 && isset($menuItemIdsRef[$parentId])) {
+                    $menuData[$menuId]['menu_items'][$itemId]['menu_item_parent_id'] = $menuItemIdsRef[$parentId];
+                }
+
+                if (isset($menuIdsRef[$menuId])) {
+                    $menuData[$menuId]['menu_items'][$itemId]['menu_id'] = $menuIdsRef[$menuId];
+                }
+            }
+        }
+
+        // Save
         foreach ($menuData as $menu) {
             $model->setData($menu);
             $this->menuRepository->save($model);

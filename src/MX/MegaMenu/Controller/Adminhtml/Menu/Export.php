@@ -34,7 +34,7 @@ class Export extends MenuController
     public function execute()
     {
         $resultPage = $this->resultPageFactory->create();
-        $resultPage->getConfig()->getTitle()->prepend((__('MX Mega Menu - Export')));
+        $resultPage->getConfig()->getTitle()->prepend(__('MX Mega Menu - Export'));
 
         return $resultPage;
     }

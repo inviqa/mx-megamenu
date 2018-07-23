@@ -13,6 +13,11 @@ use Magento\Framework\Registry;
 class ExportPost extends MenuController
 {
     /**
+     * @var MenuFactory
+     */
+    private $menuFactory;
+
+    /**
      * @var MenuRepositoryInterface
      */
     private $menuRepository;
@@ -47,10 +52,7 @@ class ExportPost extends MenuController
             $result = [];
             $items = $this->menuRepository->getAllItems();
 
-            if ($items) {
-                /** @var \MX\MegaMenu\Model\Menu $model */
-                $model = $this->menuFactory->create();
-
+            if ($items->count()) {
                 foreach ($items as $item) {
                     $id = $item['menu_id'];
                     $menu = $this->menuRepository->getById($id);
