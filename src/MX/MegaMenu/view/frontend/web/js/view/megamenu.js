@@ -63,6 +63,32 @@ define([
                     }, function() {
                         $(this).removeClass('current');
                     });
+
+                    self.element.find('.level-top').find('.nav-anchor').on('click', function(e) {
+                        if ($(this).next('.level0.submenu').length) {
+                            e.preventDefault(); // Do not link to anywhere if there is submenu defined
+                        }
+                    });
+
+                    /**
+                     * New functionality - toggle
+                     */
+                    self.element.find('.level1').find('.nav-anchor').each(function(i, el) {
+                        if ($(el).hasClass('hide')) {
+                            $(el).next('.mx-megamenu__submenu').hide();
+                        }
+
+                        if ($(el).hasClass('toggle')) {
+                            $(el).next('.mx-megamenu__submenu').hide();
+                            $(el).on('mouseenter', function() {
+                                $(el).next('.mx-megamenu__submenu').show();
+                            });
+
+                            $(el).next('.mx-megamenu__submenu').on('mouseleave', function() {
+                                $(this).hide();
+                            });
+                        }
+                    });
                 },
                 /**
                  * Switch to Mobile Version.

@@ -84,6 +84,11 @@ define([
         },
 
         getHiddenElementValue: function(name, value) {
+            // Set default value for category type (new field > 1.1.0)
+            if (name === 'content_category_type' && value === '') {
+                value = 'show';
+            }
+
             var params = {
                 'name': name,
                 'value': value

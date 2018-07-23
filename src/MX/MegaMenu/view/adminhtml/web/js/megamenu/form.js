@@ -27,6 +27,7 @@ define([
             $categoryLabelContainer = $('#content_categorylabel');
 
             $form.find('.field-content_category').hide(); // Hide the category selector at content
+            $form.find('.field-content_category_type').hide(); // Hide the category type selector at content
 
             // Load saved params
             this._loadSavedParams();
@@ -156,7 +157,12 @@ define([
             if ($element.length) {
                 $form.find('.field-content_wysiwyg').hide();
                 $form.find('.field-content_category').hide();
+                $form.find('.field-content_category_type').hide();
                 $element.show();
+
+                if (value === 'category') {
+                    $form.find('.field-content_category_type').show();
+                }
             }
         },
 

@@ -24,6 +24,10 @@ class Item extends AbstractModel
     const CONTENT_TYPE_CATEGORY = 'category';
     const CONTENT_TYPE_CONTENT = 'wysiwyg';
 
+    const CATEGORY_TYPE_SHOW = 'show';
+    const CATEGORY_TYPE_HIDE = 'hide';
+    const CATEGORY_TYPE_TOGGLE = 'toggle';
+
     /**
      * @var CategoryRepositoryInterface
      */
@@ -65,6 +69,7 @@ class Item extends AbstractModel
             'content_status' => $this->isEnabled($item, 'content_status'),
             'content_content' => $this->getDecodedContent($item['content_content']),
             'content_categories' => $this->getCategories($item),
+            'content_category_type' => $item['content_category_type'],
             'footer_status' => $this->isEnabled($item, 'footer_status'),
             'footer_content' => $this->getDecodedContent($item['footer_content']),
             'leftside_status' => $this->isEnabled($item, 'leftside_status'),
@@ -153,9 +158,11 @@ class Item extends AbstractModel
                 ];
 
                 // Subcategories
-                $subcategories = $category->getChildrenCategories();
-                foreach ($subcategories as $subcategory) {
-                    $categories['children'][] = $this->getCategoryData($subcategory);
+                if ($this->isChildrenCategoriesVisible($item)) {
+                    $subcategories = $category->getChildrenCategories();
+                    foreach ($subcategories as $subcategory) {
+                        $categories['children'][] = $this->getCategoryData($subcategory);
+                    }
                 }
 
                 return $categories;
@@ -163,6 +170,18 @@ class Item extends AbstractModel
         }
 
         return '';
+    }
+
+    /**
+     * Is children categories visible
+     *
+     * @param array $item
+     * @return boolean
+     */
+    protected function isChildrenCategoriesVisible($item)
+    {
+        return $item['content_category_type'] === self::CATEGORY_TYPE_SHOW
+            || $item['content_category_type'] === self::CATEGORY_TYPE_TOGGLE;
     }
 
     /**

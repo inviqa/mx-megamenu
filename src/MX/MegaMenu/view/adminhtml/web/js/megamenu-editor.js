@@ -223,6 +223,7 @@ define([
                 'content_status': 0,
                 'content_category': '',
                 'content_content': '',
+                'content_category_type': 'show',
                 'content_type': 'wysiwyg',
                 'leftside_status': 0,
                 'leftside_content': '',
