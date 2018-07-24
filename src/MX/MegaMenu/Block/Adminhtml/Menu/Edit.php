@@ -85,7 +85,7 @@ class Edit extends Container
      */
     public function getMenuJson()
     {
-        /** @var $menuModel \MX\MegaMenu\Model\Menu */
+        /** @var $menuModel \MX\MegaMenu\Model\Menu|null */
         $menuModel = $this->coreRegistry->registry('mx_megamenu_menu');
 
         if ($menuModel) {
