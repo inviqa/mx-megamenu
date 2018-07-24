@@ -55,10 +55,6 @@ class ExportPost extends MenuController
             $result = [];
             $items = $this->menuRepository->getAllItems();
 
-            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/test.log');
-            $logger = new \Zend\Log\Logger();
-            $logger->addWriter($writer);
-
             foreach ($items as $item) {
                 $id = $item->getMenuId();
                 $menu = $this->menuRepository->getById($id);
