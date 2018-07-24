@@ -110,7 +110,7 @@ class MenuRepository implements MenuRepositoryInterface
     /**
      * Get all items
      *
-     * @return \Magento\Framework\DataObject[]
+     * @return MenuInterface
      */
     public function getAllItems()
     {
