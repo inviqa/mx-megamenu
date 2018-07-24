@@ -124,3 +124,12 @@
 .hidden-form {
     display: none;
 }
+.megamenu-container {
+    margin: 10px 0;
+}
+.megamenu-container .text {
+    padding: 10px 0;
+}
+.megamenu-container .input-field {
+    margin: 10px 0 30px;
+}

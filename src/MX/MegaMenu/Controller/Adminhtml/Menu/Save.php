@@ -6,7 +6,7 @@ use MX\MegaMenu\Controller\Adminhtml\Menu as MenuController;
 use MX\MegaMenu\Model\MenuFactory;
 use MX\MegaMenu\Api\MenuRepositoryInterface;
 use Magento\Backend\App\Action\Context;
-use Magento\Framework\Json\Helper\Data as JsonData;
+use Magento\Framework\Json\Helper\Data as JsonDataHelper;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Framework\Exception\LocalizedException;
@@ -32,22 +32,24 @@ class Save extends MenuController
     /**
      * @param Context $context
      * @param Registry $coreRegistry
+     * @param JsonDataHelper $jsonDataHelper
      * @param DataPersistorInterface $dataPersistor
-     * @param MenuFactory|null $menuFactory
-     * @param MenuRepositoryInterface|null $menuRepository
+     * @param MenuFactory $menuFactory
+     * @param MenuRepositoryInterface $menuRepository
      */
     public function __construct(
         Context $context,
         Registry $coreRegistry,
+        JsonDataHelper $jsonDataHelper,
         DataPersistorInterface $dataPersistor,
-        MenuFactory $menuFactory = null,
-        MenuRepositoryInterface $menuRepository = null
+        MenuFactory $menuFactory,
+        MenuRepositoryInterface $menuRepository
     ) {
         $this->dataPersistor = $dataPersistor;
-        $this->menuFactory = $menuFactory ?: ObjectManager::getInstance()->get(MenuFactory::class);
-        $this->menuRepository = $menuRepository ?: ObjectManager::getInstance()->get(MenuRepositoryInterface::class);
+        $this->menuFactory = $menuFactory;
+        $this->menuRepository = $menuRepository;
 
-        parent::__construct($context, $coreRegistry);
+        parent::__construct($context, $coreRegistry, $jsonDataHelper);
     }
 
     /**
@@ -117,19 +119,5 @@ class Save extends MenuController
         }
 
         return $this->sendHtmlResponse($response);
-    }
-
-    /**
-     * Send Response
-     *
-     * @param array $response
-     *
-     * @return string
-     */
-    public function sendHtmlResponse($response)
-    {
-        return $this->getResponse()->representJson(
-            $this->_objectManager->get(JsonData::class)->jsonEncode($response)
-        );
     }
 }

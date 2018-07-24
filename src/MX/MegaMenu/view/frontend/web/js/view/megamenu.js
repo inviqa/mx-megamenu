@@ -63,6 +63,26 @@ define([
                     }, function() {
                         $(this).removeClass('current');
                     });
+
+                    /**
+                     * New functionality - toggle
+                     */
+                    self.element.find('.level1').find('.nav-anchor').each(function(i, el) {
+                        if ($(el).hasClass('hide')) {
+                            $(el).next('.mx-megamenu__submenu').hide();
+                        }
+
+                        if ($(el).hasClass('toggle')) {
+                            $(el).next('.mx-megamenu__submenu').hide();
+                            $(el).on('mouseenter', function() {
+                                $(el).next('.mx-megamenu__submenu').show();
+                            });
+
+                            $(el).next('.mx-megamenu__submenu').on('mouseleave', function() {
+                                $(this).hide();
+                            });
+                        }
+                    });
                 },
                 /**
                  * Switch to Mobile Version.
@@ -74,7 +94,7 @@ define([
                     self.element.find('.mx-megamenu__item > .mx-megamenu__link').on('click', function(e) {
                         $item = $(e.target).closest('.mx-megamenu__item');
 
-                        if (self._hasNoLink($(e.target).closest('.mx-megamenu__link'))) {
+                        if (self._canShowSubmenu($(e.target))) {
                             // Open, close
                             e.preventDefault();
 
@@ -97,6 +117,12 @@ define([
                     });
                 }
             });
+        },
+
+        _canShowSubmenu: function($item) {
+            var $link = $item.closest('.mx-megamenu__link');
+
+            return this._hasNoLink($link) || $link.next('.mx-megamenu__submenu').length
         },
 
         _hasNoLink: function($item) {

@@ -5,6 +5,8 @@ namespace MX\MegaMenu\Model;
 use MX\MegaMenu\Api\Data\MenuInterface;
 use MX\MegaMenu\Api\MenuRepositoryInterface;
 use MX\MegaMenu\Model\ResourceModel\Menu as ResourceMenu;
+use MX\MegaMenu\Model\ResourceModel\Menu\Collection as MenuCollection;
+use MX\MegaMenu\Model\ResourceModel\Menu\CollectionFactory as MenuCollectionFactory;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -23,6 +25,11 @@ class MenuRepository implements MenuRepositoryInterface
     protected $menuFactory;
 
     /**
+     * @var MenuCollectionFactory
+     */
+    protected $menuCollectionFactory;
+
+    /**
      * @var \Magento\Store\Model\StoreManagerInterface
      */
     private $storeManager;
@@ -30,15 +37,18 @@ class MenuRepository implements MenuRepositoryInterface
     /**
      * @param ResourceMenu $resource
      * @param MenuFactory $menuFactory
+     * @param MenuCollectionFactory $menuCollectionFactory
      * @param StoreManagerInterface $storeManager
      */
     public function __construct(
         ResourceMenu $resource,
         MenuFactory $menuFactory,
+        MenuCollectionFactory $menuCollectionFactory,
         StoreManagerInterface $storeManager
     ) {
         $this->resource = $resource;
         $this->menuFactory = $menuFactory;
+        $this->menuCollectionFactory = $menuCollectionFactory;
         $this->storeManager = $storeManager;
     }
 
@@ -98,6 +108,18 @@ class MenuRepository implements MenuRepositoryInterface
     }
 
     /**
+     * Get all items
+     *
+     * @return MenuInterface
+     */
+    public function getAllItems()
+    {
+        $collection = $this->menuCollectionFactory->create();
+
+        return $collection->getItems();
+    }
+
+    /**
      * Delete Menu
      *
      * @param MenuInterface $menu
@@ -126,5 +148,13 @@ class MenuRepository implements MenuRepositoryInterface
     public function deleteById($menuId)
     {
         return $this->delete($this->getById($menuId));
+    }
+
+    /**
+     * Truncate tables
+     **/
+    public function deleteAll()
+    {
+        $this->resource->deleteAll();
     }
 }

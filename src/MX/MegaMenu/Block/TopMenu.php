@@ -3,6 +3,7 @@
 namespace MX\MegaMenu\Block;
 
 use MX\MegaMenu\Model\Menu;
+use MX\MegaMenu\Model\Menu\Item as MenuItem;
 use MX\MegaMenu\Model\MenuRepository;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
@@ -113,6 +114,15 @@ class TopMenu extends Template
             || !empty($item['rightside_status'])
             || !empty($item['footer_status'])
             || isset($item['children']);
+    }
+
+    /**
+     * @param array $item
+     * @return string
+     */
+    public function getCategoriesAdditionalClasses($item)
+    {
+        return $item['content_category_type'];
     }
 
     /**

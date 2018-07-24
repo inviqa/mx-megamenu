@@ -16,6 +16,13 @@ use Magento\Store\Model\StoreManagerInterface;
 class Menu extends AbstractDb
 {
     /**
+     * @var array
+     */
+    private $tableNames = [
+        'mx_megamenu_store', 'mx_megamenu_item', 'mx_megamenu'
+    ];
+
+    /**
     * Store manager
     *
     * @var StoreManagerInterface
@@ -125,6 +132,26 @@ class Menu extends AbstractDb
     {
         $this->entityManager->delete($object);
         return $this;
+    }
+
+    /**
+     * Delete all menu and items
+     */
+    public function deleteAll()
+    {
+        $connection = $this->getConnection();
+
+        // Disable foreign key check for truncate
+        $sql = "SET FOREIGN_KEY_CHECKS=0;";
+        $connection->query($sql);
+
+        foreach ($this->tableNames as $tableName) {
+            $connection->truncateTable($this->getTable($tableName));
+        }
+
+        // Enable foreign key check for truncate
+        $sql = "SET FOREIGN_KEY_CHECKS=1;";
+        $connection->query($sql);
     }
 
     /**

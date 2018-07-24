@@ -2,6 +2,7 @@
 /** @var $block \MX\MegaMenu\Block\Topmenu */
 
 $structure = $block->getStructure();
+
 ?>
 
 <?php if ($structure): ?>
@@ -32,7 +33,9 @@ $structure = $block->getStructure();
                                                 <?php $categories = $child['content_categories']; ?>
                                                 <?php if ($categories['category']): ?>
                                                     <?php $category = $categories['category']; ?>
-                                                    <a href="javascript:;" class="nav-anchor mx-megamenu__link"><?php echo $category['name']; ?></a>
+                                                    <a href="<?php echo $category['link'] ?: 'javascript:;'; ?>" class="nav-anchor mx-megamenu__link <?php echo $block->getCategoriesAdditionalClasses($child); ?>">
+                                                        <?php echo $category['name']; ?>
+                                                    </a>
                                                     <ul class="mx-megamenu__submenu">
                                                         <?php foreach ($categories['children'] as $subcategory): ?>
                                                             <li class="mx-megamenu__category-item">
@@ -71,5 +74,4 @@ $structure = $block->getStructure();
         <?php endif; ?>
     <?php endforeach; ?>
 <?php endif; ?>
-
 

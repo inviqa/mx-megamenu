@@ -46,6 +46,15 @@ class Form extends Generic
     ];
 
     /**
+     * @var array
+     */
+    protected $categoryTypeChooserOptions = [
+        'show' => 'Show children always',
+        'hide' => 'Hide children always',
+        'toggle' => 'Toggle children'
+    ];
+
+    /**
      * @param Context $context
      * @param Registry $registry
      * @param FormFactory $formFactory
@@ -219,6 +228,17 @@ class Form extends Generic
                 'button_label' => __('Select Category...')
             ]
         );
+        $content->addField(
+            'content_category_type',
+            'select',
+            [
+                'label' => __('Category Type'),
+                'title' => __('Category Type'),
+                'required' => false,
+                'options' => $this->getCategoryTypeChooserOptions(),
+                'name' => 'content_category_type',
+            ]
+        );
 
         $leftside = $form->addFieldset(
             'left_side_fieldset',
@@ -327,5 +347,15 @@ class Form extends Generic
     protected function getContentChooserOptions()
     {
         return $this->contentChooserOptions;
+    }
+
+    /**
+     * Get categor type chooser options
+     *
+     * @return array
+     */
+    protected function getCategoryTypeChooserOptions()
+    {
+        return $this->categoryTypeChooserOptions;
     }
 }
