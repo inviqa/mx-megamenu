@@ -27,18 +27,18 @@ class ExportPost extends MenuController
      * @param Context $context
      * @param Registry $coreRegistry
      * @param JsonDataHelper $jsonDataHelper
-     * @param MenuFactory|null $menuFactory
-     * @param MenuRepositoryInterface|null $menuRepository
+     * @param MenuFactory $menuFactory
+     * @param MenuRepositoryInterface $menuRepository
      */
     public function __construct(
         Context $context,
         Registry $coreRegistry,
         JsonDataHelper $jsonDataHelper,
-        MenuFactory $menuFactory = null,
-        MenuRepositoryInterface $menuRepository = null
+        MenuFactory $menuFactory,
+        MenuRepositoryInterface $menuRepository
     ) {
-        $this->menuFactory = $menuFactory ?: ObjectManager::getInstance()->get(MenuFactory::class);
-        $this->menuRepository = $menuRepository ?: ObjectManager::getInstance()->get(MenuRepositoryInterface::class);
+        $this->menuFactory = $menuFactory;
+        $this->menuRepository = $menuRepository;
 
         parent::__construct($context, $coreRegistry, $jsonDataHelper);
     }

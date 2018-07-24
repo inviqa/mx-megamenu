@@ -20,9 +20,9 @@ class Edit extends MenuController
      * Edit constructor.
      *
      * @param Context $context
-     * @param PageFactory $resultPageFactory
      * @param Registry $registry
      * @param JsonDataHelper $jsonDataHelper
+     * @param MenuFactory $menuFactory
      */
     public function __construct(
         Context $context,

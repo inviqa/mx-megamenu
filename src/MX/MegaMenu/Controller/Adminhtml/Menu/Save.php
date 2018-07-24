@@ -34,20 +34,20 @@ class Save extends MenuController
      * @param Registry $coreRegistry
      * @param JsonDataHelper $jsonDataHelper
      * @param DataPersistorInterface $dataPersistor
-     * @param MenuFactory|null $menuFactory
-     * @param MenuRepositoryInterface|null $menuRepository
+     * @param MenuFactory $menuFactory
+     * @param MenuRepositoryInterface $menuRepository
      */
     public function __construct(
         Context $context,
         Registry $coreRegistry,
         JsonDataHelper $jsonDataHelper,
         DataPersistorInterface $dataPersistor,
-        MenuFactory $menuFactory = null,
-        MenuRepositoryInterface $menuRepository = null
+        MenuFactory $menuFactory,
+        MenuRepositoryInterface $menuRepository
     ) {
         $this->dataPersistor = $dataPersistor;
-        $this->menuFactory = $menuFactory ?: ObjectManager::getInstance()->get(MenuFactory::class);
-        $this->menuRepository = $menuRepository ?: ObjectManager::getInstance()->get(MenuRepositoryInterface::class);
+        $this->menuFactory = $menuFactory;
+        $this->menuRepository = $menuRepository;
 
         parent::__construct($context, $coreRegistry, $jsonDataHelper);
     }
