@@ -77,6 +77,7 @@ class ImportHandler implements ImportHandlerInterface
         $menuIdsRef = [];
         $menuItemIdsRef = [];
 
+        // Assign references for the new menu item ids
         foreach ($menuData as $menuId => $menu) {
             $menuItems = [];
             foreach ($menu['menu_items'] as $itemId => $item) {
@@ -99,7 +100,7 @@ class ImportHandler implements ImportHandlerInterface
             $newMenuId++;
         }
 
-        // Assign references for the new ids
+        // Assign references for the new menu ids
         foreach ($menuData as $menuId => $menu) {
             foreach ($menu['menu_items'] as $itemId => $item) {
                 $parentId = $item['menu_item_parent_id'];
@@ -107,16 +108,22 @@ class ImportHandler implements ImportHandlerInterface
                     $menuData[$menuId]['menu_items'][$itemId]['menu_item_parent_id'] = $menuItemIdsRef[$parentId];
                 }
 
+                // Save new menu_id for menu item
                 if (isset($menuIdsRef[$menuId])) {
                     $menuData[$menuId]['menu_items'][$itemId]['menu_id'] = $menuIdsRef[$menuId];
                 }
+            }
+
+            // Save new menu_id for menu
+            if (isset($menuIdsRef[$menuId])) {
+                $menuData[$menuId]['menu_id'] = $menuIdsRef[$menuId];
             }
         }
 
         // Save
         /** @var \MX\MegaMenu\Model\Menu $model */
         $model = $this->menuFactory->create();
-        
+
         foreach ($menuData as $menu) {
             $model->setData($menu);
             $this->menuRepository->save($model);
