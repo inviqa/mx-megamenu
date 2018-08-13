@@ -186,14 +186,16 @@ define([
         },
 
         /**
-         * Convert special attributes
+         * Convert special attributes.
+         * Place any logic here that relates to any desired html attributes.
+         * This is within the widget string e.g. content="<a href="link">something</a>"
          *
          * @param string content
          * @returns string
          * @private
          */
         _convertSpecialAttributes: function(content) {
-            return content.replace(/href="(.*?)"/g, 'href=&quot;$1&quot;')
+            return content.replace(/(href|src|class|id)="(.*?)"/g, '$1=&quot;$2&quot;');
         }
     });
 
