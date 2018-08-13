@@ -98,8 +98,7 @@ define([
                     $form.find('input').each(function(idx, element) {
                         var item = formBuilder().decodeParams($(element).val()),
                             parentId = 0,
-                            $parentElement,
-                            value = '';
+                            $parentElement;
 
                         // Get menu item data
                         if (!$(element).hasClass(dataProviderLabel) && self._canSaveMenuItem(item)) {
