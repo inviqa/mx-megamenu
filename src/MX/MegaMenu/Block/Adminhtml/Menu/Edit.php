@@ -127,7 +127,7 @@ class Edit extends Container
         $menuItem = $this->menuItemFactory->create();
         foreach ($items as &$item) {
             foreach ($item as $name => $value) {
-                if ($menuItem->isContent($name)) {
+                if ($menuItem->needEncode($name)) {
                     $value = $menuItem->decodeContent($value);
                     $value = $menuItem->encodeSpecialCharacters($value);
                     $item[$name] = base64_encode($value);

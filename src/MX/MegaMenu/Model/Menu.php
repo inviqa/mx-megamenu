@@ -282,7 +282,7 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
         $menuItem = $this->menuItemFactory->create();
         foreach ($items as $id => $item) {
             foreach ($item as $name => $value) {
-                if ($menuItem->isContent($name)) {
+                if ($menuItem->needEncode($name)) {
                     $value = $menuItem->encodeContent($value);
 
                     $items[$id][$name] = $menuItem->encodeSpecialCharacters($value);
@@ -326,7 +326,7 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
                 $result[$parentId]['children'][] = $menuItem->getItemData($item);
             }
         }
-
+        
         return $result;
     }
 }

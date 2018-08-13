@@ -131,8 +131,12 @@ define([
 
         encodeContent: function(name, value) {
             if (name.match('_content')) {
-                value = this._escapeContent(value);
+                value = this._convertContentForEditor(value);
 
+                return window.btoa(value);
+            }
+
+            if (name.match('link')) {
                 return window.btoa(value);
             }
 
@@ -144,7 +148,11 @@ define([
                 value = window.atob(value);
                 value = this._decodeSpecialCharacters(value);
 
-                return this._escapeContent(value);
+                return this._convertContentForEditor(value);
+            }
+
+            if (name.match('link')) {
+                return window.atob(value);
             }
 
             return value;
@@ -152,6 +160,7 @@ define([
 
         /**
          * Decode special symbols e.g. &reg; &copyright;
+         *
          * @param string content
          * @returns {*}
          * @private
@@ -161,14 +170,32 @@ define([
         },
 
         /**
-         * Escape content - workaround for html contents in widget textarea fields
+         * Convert content - workaround for html contents in widget textarea fields
          *
          * @param string content
          * @returns string
          * @private
          */
-        _escapeContent: function(content) {
-            return content.replace(/&gt;\s+&lt;/g,'&gt;&lt;').replace(/\"g/, '&quot;').replace(/&quot;/g, "'");
+        _convertContentForEditor: function(content) {
+            content = content
+                .replace(/&gt;\s+&lt;/g,'&gt;&lt;') // <>
+                .replace(/&quot;/g, '"') // Fix for M2 Wysiwyg Editor
+                .replace(/\'/g, '&quot;'); // Backward compatiblity <= 1.1.2
+
+            return this._convertSpecialAttributes(content);
+        },
+
+        /**
+         * Convert special attributes.
+         * Place any logic here that relates to any desired html attributes.
+         * This is within the widget string e.g. content="<a href="link">something</a>"
+         *
+         * @param string content
+         * @returns string
+         * @private
+         */
+        _convertSpecialAttributes: function(content) {
+            return content.replace(/(href|src|class|id)="(.*?)"/g, '$1=&quot;$2&quot;');
         }
     });
 

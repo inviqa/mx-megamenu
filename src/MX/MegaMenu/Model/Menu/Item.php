@@ -80,14 +80,14 @@ class Item extends AbstractModel
     }
 
     /**
-     * Is content
+     * Need encode
      *
      * @param string $name
      * @return boolean
      */
-    public function isContent($name)
+    public function needEncode($name)
     {
-        return strpos($name, '_content') !== false;
+        return strpos($name, '_content') !== false || strpos($name, 'link') !== false;
     }
 
     /**
@@ -239,6 +239,10 @@ class Item extends AbstractModel
      */
     protected function getItemLink($item)
     {
-        return !empty($item['link']) ? $item['link'] : 'javascript:;';
+        if (!empty($item['link'])) {
+            return $this->getDecodedContent($item['link']); // Also resolve magento url directives
+        }
+
+        return 'javascript:;'; // For opening submenu items, no links defined
     }
 }
