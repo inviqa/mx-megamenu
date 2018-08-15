@@ -7,6 +7,7 @@ define([
     // Widget for separate dialog instance to avoid the conflicts with other dialog instances opened by MediaBrowserUtility
     $.widget('mx.megaMenuDialog', {
         dialogId: 'mega-menu-dialog',
+        title: 'Insert/Edit Form Data',
 
         _create: function() {
             this.getModalInstance();
@@ -22,7 +23,7 @@ define([
                 menuModal.html($(content).html());
             } else {
                 menuModal = $(content).modal($.extend({
-                    title:  'Insert Form Data...',
+                    title:  this.title,
                     modalClass: 'magento',
                     type: 'slide',
                     buttons: []
@@ -30,7 +31,12 @@ define([
             }
         },
 
-        openDialog: function(url) {
+        openDialog: function(url, title) {
+            if (typeof title !== 'undefined' && title !== '') {
+                this.title += ' - ' + title;
+            }
+
+            menuModal.modal('setTitle', this.title);
             menuModal.modal('openModal');
 
             $.ajax({
@@ -38,7 +44,6 @@ define([
                 type: 'get',
                 context: $(this),
                 showLoader: true
-
             }).done(function (data) {
                 menuModal.html(data).trigger('contentUpdated');
             });
