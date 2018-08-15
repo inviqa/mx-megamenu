@@ -48,8 +48,14 @@ define([
 
             $nestableContainer.nestable({
                 maxDepth: self.options.maxDepth,
-                expandBtnHTML: self._getButtonHtml('#btn-expand-template'), //TODO: Fix button rendering
-                collapseBtnHTML: self._getButtonHtml('#btn-collapse-template') //TODO: Fix button rendering
+                onDragStart: function(l, e) {
+                    $(e).find('.actions').hide();
+                    $(e).find('.dd-actions').hide();
+                },
+                beforeDragStop: function(l, e) {
+                    $(e).find('.actions').show();
+                    $(e).find('.dd-actions').show();
+                }
             });
 
             // Add
@@ -78,8 +84,47 @@ define([
 
         build: function() {
             if (menuItemsData) {
+                // Build items
                 this.buildItems(menuItemsData);
+
+                // Add expand/collapse buttons as it's buggy for the third-party
+                this.buildButtons();
             }
+        },
+
+        buildButtons: function() {
+            var self = this;
+
+            $structureContainer.find('.menu-item').each(function(i, el) {
+                if ($(el).find('>.dd-list').length) {
+                    $(el).find('>.dd-actions').append(self._getButtonHtml('#btn-expand-template'));
+                    $(el).find('>.dd-actions').append(self._getButtonHtml('#btn-collapse-template'));
+                    $(el).find('>.dd-actions').find('.btn-collapse').addClass('show');
+                }
+            });
+
+            $structureContainer.find('.menu-item').find('.btn-caret').on('click', function(e) {
+                e.preventDefault();
+
+                var $this = $(e.target).closest('.btn-caret'),
+                    $parent = $this.closest('.dd-actions'),
+                    $expandButton = $parent.find('.btn-expand'),
+                    $collapseButton = $parent.find('.btn-collapse'),
+                    action = $this.data('action'),
+                    $children = $this.closest('.menu-item').find('.dd-list');
+
+                if (action === 'expand') {
+                    $collapseButton.addClass('show');
+                    $expandButton.removeClass('show');
+                    $children.slideDown();
+                }
+
+                if (action === 'collapse') {
+                    $expandButton.addClass('show');
+                    $collapseButton.removeClass('show');
+                    $children.slideUp();
+                }
+            });
         },
 
         save: function() {
@@ -188,12 +233,20 @@ define([
         },
 
         editMenuItem: function($element) {
-            var additionalParams = '';
+            var additionalParams = '',
+                $nameElement,
+                menuItemNameValue,
+                menuItemName = '';
+
             if ($element.data('id')) {
                 additionalParams = 'item_id/' + $element.data('id');
+                $nameElement = $element.find('.form').find('.menu_item_' + $element.data('id') + '_name');
+                menuItemNameValue = $nameElement.val();
+                menuItemNameValue = JSON.parse(menuItemNameValue);
+                menuItemName = menuItemNameValue.value;
             }
 
-            menuDialog().openDialog(this.options.editUrl + additionalParams);
+            menuDialog().openDialog(this.options.editUrl + additionalParams, menuItemName);
         },
 
         removeMenuItem: function($element) {

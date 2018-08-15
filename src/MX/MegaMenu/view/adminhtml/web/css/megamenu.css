@@ -25,6 +25,10 @@
 .fa-hand:before {
     content: "\f255";
 }
+.fa-caret-up,
+.fa-caret-down {
+    font-size: 30px;
+}
 .fa-caret-up:before {
     content: "\f0d8";
 }
@@ -56,14 +60,19 @@
     border-left: 0;
     border-right: 0;
 }
-.megamenu-editor .structure .menu-item > .btn-caret {
-    margin-left: 10px;
-    text-indent: 0;
+.megamenu-editor .structure .menu-item .btn-caret {
+    display: none;
+    padding: 0 10px;
+    border: 0;
+    background-color: #f8f8f8;
+}
+.megamenu-editor .structure .menu-item .btn-caret.show {
+    display: block;
 }
 .megamenu-editor .structure .menu-item .actions {
     float: right;
     display: inline-block;
-    margin-left: 40px;
+    margin-left: 10px;
     margin-top: 4px;
 }
 .megamenu-editor .structure .menu-item .actions a {
@@ -80,7 +89,7 @@
 .megamenu-editor .structure .menu-item .drag-menu {
     display: inline-block;
     background-color: #f8f8f8;
-    width: 80%;
+    width: 74%;
     cursor: pointer;
     border: 0;
     padding: 0 10px;
@@ -99,6 +108,9 @@
 }
 .megamenu-editor .nestable .dd-empty {
     display: none;
+}
+.megamenu-editor .nestable .dd-actions {
+    display: inline-block;
 }
 #tabs-menu {
     list-style-type: none;
@@ -132,4 +144,7 @@
 }
 .megamenu-container .input-field {
     margin: 10px 0 30px;
+}
+.dd-dragel > .dd-item > .dd-handle.drag-menu {
+    height: 46px;
 }

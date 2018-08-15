@@ -28,25 +28,35 @@ $structure = $block->getStructure();
                             <?php if (isset($item['children'])): ?>
                                 <div class="mx-megamenu__categories">
                                     <?php foreach ($item['children'] as $child): ?>
-                                        <?php if ($child['status'] && $child['content_categories']): ?>
-                                            <div class="level1 mx-megamenu__item mx-megamenu__category">
-                                                <?php $categories = $child['content_categories']; ?>
-                                                <?php if ($categories['category']): ?>
-                                                    <?php $category = $categories['category']; ?>
-                                                    <a href="<?php echo $category['link'] ?: 'javascript:;'; ?>" class="nav-anchor mx-megamenu__link <?php echo $block->getCategoriesAdditionalClasses($child); ?>">
-                                                        <?php echo $category['name']; ?>
+                                        <?php if ($child['status']): ?>
+                                            <?php // Categories as children ?>
+                                            <?php if ($child['content_categories']): ?>
+                                                <div class="level1 mx-megamenu__item mx-megamenu__category">
+                                                    <?php $categories = $child['content_categories']; ?>
+                                                    <?php if ($categories['category']): ?>
+                                                        <?php $category = $categories['category']; ?>
+                                                        <a href="<?php echo $category['link'] ?: 'javascript:;'; ?>" class="nav-anchor mx-megamenu__link <?php echo $block->getCategoriesAdditionalClasses($child); ?>">
+                                                            <?php echo $category['name']; ?>
+                                                        </a>
+                                                        <ul class="mx-megamenu__submenu">
+                                                            <?php foreach ($categories['children'] as $subcategory): ?>
+                                                                <li class="mx-megamenu__category-item">
+                                                                    <a id="u-uid-<?php echo $subcategory['id']; ?>" class="mx-megamenu__link" href="<?php echo $subcategory['link']; ?>">
+                                                                        <span><?php echo $subcategory['name']; ?></span>
+                                                                    </a>
+                                                                </li>
+                                                            <?php endforeach; ?>
+                                                        </ul>
+                                                    <?php endif; ?>
+                                                </div>
+                                            <?php // Other item with link as child ?>
+                                            <?php elseif (!empty($child['link'])): ?>
+                                                <div class="level1 mx-megamenu__item mx-megamenu__category">
+                                                    <a href="<?php echo $child['link']?>" class="nav-anchor mx-megamenu__link <?php echo $block->getCategoriesAdditionalClasses($child); ?>">
+                                                        <?php echo $child['name']; ?>
                                                     </a>
-                                                    <ul class="mx-megamenu__submenu">
-                                                        <?php foreach ($categories['children'] as $subcategory): ?>
-                                                            <li class="mx-megamenu__category-item">
-                                                                <a id="u-uid-<?php echo $subcategory['id']; ?>" class="mx-megamenu__link" href="<?php echo $subcategory['link']; ?>">
-                                                                    <span><?php echo $subcategory['name']; ?></span>
-                                                                </a>
-                                                            </li>
-                                                        <?php endforeach; ?>
-                                                    </ul>
-                                                <?php endif; ?>
-                                            </div>
+                                                </div>
+                                            <?php endif; ?>
                                         <?php endif; ?>
                                     <?php endforeach; ?>
                                 </div>
