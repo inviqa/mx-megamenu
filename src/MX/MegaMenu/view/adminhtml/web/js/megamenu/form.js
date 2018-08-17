@@ -152,10 +152,12 @@ define([
 
         _switchContent: function(value) {
             var $form = this._getForm(),
-                $element = $form.find('.field-content_' + value);
+                itemId = this._getItemId(),
+                $element;
 
+            $element = (value === 'category') ? $form.find('.field-content_' + value) : $form.find('.field-content_' + value + '_' + itemId);
             if ($element.length) {
-                $form.find('.field-content_wysiwyg').hide();
+                $form.find('.field-content_wysiwyg_' + itemId).hide();
                 $form.find('.field-content_category').hide();
                 $form.find('.field-content_category_type').hide();
                 $element.show();

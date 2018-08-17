@@ -65,6 +65,10 @@ class SaveHandler implements ExtensionInterface
             $connection->delete($table, $where);
         }
 
+        // Remove special menu items before save
+        $menuItems = $entity->getMenuItems();
+        $entity->removeSpecialMenuItems($menuItems);
+
         // Insert new items
         $insert = array_diff($newItemIds, $oldItemIds);
         if (!empty($insert)) {
@@ -75,7 +79,7 @@ class SaveHandler implements ExtensionInterface
                     'menu_item_id' => null,
                 ];
 
-                foreach ($entity->getMenuItems() as $menuItem) {
+                foreach ($menuItems as $menuItem) {
                     if ($menuItem['menu_item_id'] ==  $itemId) {
                         foreach ($menuItem as $name => $value) {
                             if ($name !== 'menu_item_id') {
@@ -91,7 +95,6 @@ class SaveHandler implements ExtensionInterface
         /**
          * Update existing items
          */
-        $menuItems = $entity->getMenuItems();
         if (count($oldItemIds) > 0 && count($menuItems) > 0) {
             foreach ($menuItems as $menuItem) {
                 if (in_array($menuItem['menu_item_id'], $oldItemIds)) {

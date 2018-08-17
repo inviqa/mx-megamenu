@@ -33,6 +33,7 @@ class ReadHandler implements ExtensionInterface
     {
         if ($entity->getMenuId()) {
             $items = $this->resourceMenu->lookupMenuItems((int)$entity->getMenuId());
+            $entity->addSpecialMenuItems($items);
             $entity->setMenuItems($items);
         }
         return $entity;
