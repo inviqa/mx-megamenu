@@ -294,6 +294,31 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
     }
 
     /**
+     * Add special items - e.g. real category name based on the category id
+     *
+     * @param array $items
+     */
+    public function addSpecialMenuItems(&$items)
+    {
+        $menuItem = $this->menuItemFactory->create();
+        foreach ($items as $id => $item) {
+            $items[$id]['category_name'] = $menuItem->getCategoryName($item);
+        }
+    }
+
+    /**
+     * Remove special items before save
+     *
+     * @param array $items
+     */
+    public function removeSpecialMenuItems(&$items)
+    {
+        foreach ($items as $id => $item) {
+            unset($items[$id]['category_name']);
+        }
+    }
+
+    /**
      * Prepare menu's statuses.
      *
      * @return array

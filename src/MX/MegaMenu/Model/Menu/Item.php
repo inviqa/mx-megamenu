@@ -136,6 +136,22 @@ class Item extends AbstractModel
     }
 
     /**
+     * Get category name
+     *
+     * @param string $item
+     * @return string
+     */
+    public function getCategoryName($item)
+    {
+        $category = $this->getCategory($item['content_category']);
+        if (!is_null($category)) {
+            return $category->getName();
+        }
+
+        return '';
+    }
+
+    /**
      * Get categories
      *
      * @param array $item
@@ -144,14 +160,9 @@ class Item extends AbstractModel
     protected function getCategories($item)
     {
         if ($item['content_type'] === self::CONTENT_TYPE_CATEGORY) {
-            $contentCategory = explode('/', $item['content_category']);
-            if ($contentCategory && isset($contentCategory[self::OFFSET_CATEGORY_ID])) {
-                $categoryId = $contentCategory[self::OFFSET_CATEGORY_ID];
-
-                // Parent Category
-                /** @var Category $category */
-                $category = $this->categoryRepository->get($categoryId);
-
+            $category = $this->getCategory($item['content_category']);
+            // Parent Category
+            if (!is_null($category)) {
                 $categories = [
                     'category' => $this->getCategoryData($category),
                     'children' => []
@@ -170,6 +181,24 @@ class Item extends AbstractModel
         }
 
         return '';
+    }
+
+    /**
+     * Get Category
+     *
+     * @param string $categoryIdPath
+     * @return Category|null
+     */
+    protected function getCategory($categoryIdPath)
+    {
+        $contentCategory = explode('/', $categoryIdPath);
+        if ($contentCategory && isset($contentCategory[self::OFFSET_CATEGORY_ID])) {
+            $categoryId = $contentCategory[self::OFFSET_CATEGORY_ID];
+
+            return $this->categoryRepository->get($categoryId);
+        }
+
+        return null;
     }
 
     /**

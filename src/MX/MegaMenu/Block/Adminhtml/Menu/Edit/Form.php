@@ -164,7 +164,7 @@ class Form extends Generic
             ]
         );
         $header->addField(
-            'header_wysiwyg',
+            $this->getFormFieldId('header_wysiwyg', $itemId),
             'editor',
             [
                 'name' => 'header_content',
@@ -206,7 +206,7 @@ class Form extends Generic
             ]
         );
         $content->addField(
-            'content_wysiwyg',
+            $this->getFormFieldId('content_wysiwyg', $itemId),
             'editor',
             [
                 'name' => 'content_content',
@@ -259,7 +259,7 @@ class Form extends Generic
             ]
         );
         $leftside->addField(
-            'left_side_wysiwyg',
+            $this->getFormFieldId('left_side_wysiwyg', $itemId),
             'editor',
             [
                 'name' => 'leftside_content',
@@ -290,7 +290,7 @@ class Form extends Generic
             ]
         );
         $rightside->addField(
-            'right_side_wysiwyg',
+            $this->getFormFieldId('right_side_wysiwyg', $itemId),
             'editor',
             [
                 'name' => 'rightside_content',
@@ -321,7 +321,7 @@ class Form extends Generic
             ]
         );
         $footer->addField(
-            'footer_wysiwyg',
+            $this->getFormFieldId('footer_wysiwyg', $itemId),
             'editor',
             [
                 'name' => 'footer_content',
@@ -337,6 +337,18 @@ class Form extends Generic
         $this->setForm($form);
 
         return parent::_prepareForm();
+    }
+
+    /**
+     * Get unique form field id
+     *
+     * @param string $field
+     * @param integer $itemId
+     * @return string
+     */
+    protected function getFormFieldId($field, $itemId)
+    {
+        return $field . '_' . $itemId;
     }
 
     /**

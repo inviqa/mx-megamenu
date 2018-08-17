@@ -55,7 +55,7 @@ define([
             // Build data for data provider
             miscData = {
                 'name': 'category-label',
-                'value': item['name']
+                'value': item['category_name'] == '' ? 'Not Selected' : item['category_name']
             };
             $dataProvider = this.getDataProvider(itemId);
             $dataProvider.val(this.encodeParams(miscData));
