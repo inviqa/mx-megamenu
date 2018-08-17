@@ -144,7 +144,7 @@ class Item extends AbstractModel
     public function getCategoryName($item)
     {
         $category = $this->getCategory($item['content_category']);
-        if ($category) {
+        if (!is_null($category)) {
             return $category->getName();
         }
 
@@ -162,7 +162,7 @@ class Item extends AbstractModel
         if ($item['content_type'] === self::CONTENT_TYPE_CATEGORY) {
             $category = $this->getCategory($item['content_category']);
             // Parent Category
-            if ($category) {
+            if (!is_null($category)) {
                 $categories = [
                     'category' => $this->getCategoryData($category),
                     'children' => []
@@ -187,7 +187,7 @@ class Item extends AbstractModel
      * Get Category
      *
      * @param string $categoryIdPath
-     * @return boolean|Category
+     * @return Category|null
      */
     protected function getCategory($categoryIdPath)
     {
@@ -198,7 +198,7 @@ class Item extends AbstractModel
             return $this->categoryRepository->get($categoryId);
         }
 
-        return false;
+        return null;
     }
 
     /**
