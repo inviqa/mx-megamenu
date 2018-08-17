@@ -195,7 +195,7 @@ define([
          * @private
          */
         _convertSpecialAttributes: function(content) {
-            return content.replace(/(href|src|class|id)="(.*?)"/g, '$1=&quot;$2&quot;');
+            return content.replace(/(href|src|class)="(.*?)"/g, '$1=&quot;$2&quot;');
         }
     });
 
