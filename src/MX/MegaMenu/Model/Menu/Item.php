@@ -206,7 +206,7 @@ class Item extends AbstractModel
             }
         } catch (NoSuchEntityException $error) {
             // Magento Category Repository throws NoSuchEntityException when no category found. That shouldn't break the FE rendering
-            $this->_logger->addError($error->getMessage());
+            $this->_logger->error($error);
         }
 
         return null;
