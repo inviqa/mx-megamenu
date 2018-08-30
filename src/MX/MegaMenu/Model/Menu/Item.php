@@ -10,6 +10,7 @@ use Magento\Framework\Model\Context;
 use Magento\Framework\Registry;
 use Magento\Framework\Model\ResourceModel\AbstractResource;
 use Magento\Framework\Data\Collection\AbstractDb;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class Item extends AbstractModel
 {
@@ -168,6 +169,11 @@ class Item extends AbstractModel
                     'children' => []
                 ];
 
+                // Overwrite main category link if link is defined already for the menu item
+                if (!empty($item['link'])) {
+                    $categories['category']['link'] = $this->getItemLink($item);
+                }
+
                 // Subcategories
                 if ($this->isChildrenCategoriesVisible($item)) {
                     $subcategories = $category->getChildrenCategories();
@@ -191,11 +197,16 @@ class Item extends AbstractModel
      */
     protected function getCategory($categoryIdPath)
     {
-        $contentCategory = explode('/', $categoryIdPath);
-        if ($contentCategory && isset($contentCategory[self::OFFSET_CATEGORY_ID])) {
-            $categoryId = $contentCategory[self::OFFSET_CATEGORY_ID];
+        try {
+            $contentCategory = explode('/', $categoryIdPath);
+            if ($contentCategory && isset($contentCategory[self::OFFSET_CATEGORY_ID])) {
+                $categoryId = $contentCategory[self::OFFSET_CATEGORY_ID];
 
-            return $this->categoryRepository->get($categoryId);
+                return $this->categoryRepository->get($categoryId);
+            }
+        } catch (NoSuchEntityException $error) {
+            // Magento Category Repository throws NoSuchEntityException when no category found. That shouldn't break the FE rendering
+            $this->_logger->error($error);
         }
 
         return null;
