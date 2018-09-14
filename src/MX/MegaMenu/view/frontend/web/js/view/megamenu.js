@@ -41,8 +41,8 @@ define([
 
             // Add class for nav-anchor where the link has href
             this.element.find('.mx-megamenu__item .mx-megamenu__link').each(function(i, item) {
-                if (!self._hasNoLink($(item))) {
-                    $(item).addClass('has-link');
+                if (self._hasSubmenu($(item))) {
+                    $(item).addClass('has-submenu');
                 }
             });
         },
@@ -91,6 +91,9 @@ define([
                     var $item,
                         $items;
 
+                    // Init sidebar links. Add link class for sidebar elements
+                    self._initSideBarLinks();
+
                     self.element.find('.mx-megamenu__item > .mx-megamenu__link').on('click', function(e) {
                         $item = $(e.target).closest('.mx-megamenu__item');
 
@@ -119,14 +122,23 @@ define([
             });
         },
 
+        // Sidebar items with "menu-sidebar__item" class can be handled as generated links
+        _initSideBarLinks: function() {
+            this.element.find('.menu-sidebar__item').each(function(i, item) {
+                $(item).addClass('mx-megamenu__item').addClass('level1');
+                $(item).find('h4, a').addClass('mx-megamenu__link');
+                $(item).find('ul').addClass('mx-megamenu__submenu');
+            });
+        },
+
         _canShowSubmenu: function($item) {
             var $link = $item.closest('.mx-megamenu__link');
 
-            return this._hasNoLink($link) || $link.next('.mx-megamenu__submenu').length
+            return this._hasSubmenu($link) || $link.next('.mx-megamenu__submenu').length
         },
 
-        _hasNoLink: function($item) {
-            return $item.attr('href') === 'javascript:;';
+        _hasSubmenu: function($item) {
+            return $item.next('.mx-megamenu__submenu').length == 1;
         }
     });
 
