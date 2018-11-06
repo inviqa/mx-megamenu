@@ -38,15 +38,17 @@ $structure = $block->getStructure();
                                                         <a href="<?php echo $category['link'] ?: 'javascript:;'; ?>" class="nav-anchor mx-megamenu__link <?php echo $block->getCategoriesAdditionalClasses($child); ?>">
                                                             <?php echo $category['name']; ?>
                                                         </a>
-                                                        <ul class="mx-megamenu__submenu">
-                                                            <?php foreach ($categories['children'] as $subcategory): ?>
-                                                                <li class="mx-megamenu__category-item">
-                                                                    <a id="u-uid-<?php echo $subcategory['id']; ?>" class="mx-megamenu__link" href="<?php echo $subcategory['link']; ?>">
-                                                                        <span><?php echo $subcategory['name']; ?></span>
-                                                                    </a>
-                                                                </li>
-                                                            <?php endforeach; ?>
-                                                        </ul>
+                                                        <?php if (count($categories['children'])): ?>
+                                                            <ul class="mx-megamenu__submenu">
+                                                                <?php foreach ($categories['children'] as $subcategory): ?>
+                                                                    <li class="mx-megamenu__category-item">
+                                                                        <a id="u-uid-<?php echo $subcategory['id']; ?>" class="mx-megamenu__link" href="<?php echo $subcategory['link']; ?>">
+                                                                            <span><?php echo $subcategory['name']; ?></span>
+                                                                        </a>
+                                                                    </li>
+                                                                <?php endforeach; ?>
+                                                            </ul>
+                                                        <?php endif; ?>
                                                     <?php endif; ?>
                                                 </div>
                                             <?php // Other item with link as child ?>
