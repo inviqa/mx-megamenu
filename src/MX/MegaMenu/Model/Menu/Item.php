@@ -181,11 +181,6 @@ class Item extends AbstractModel
                     $categories['category']['link'] = '';
                 }
 
-                $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/test.log');
-                $logger = new \Zend\Log\Logger();
-                $logger->addWriter($writer);
-                $logger->info($categories);
-
                 // Subcategories
                 if ($this->isChildrenCategoriesVisible($item)) {
                     $subcategories = $category->getChildrenCategories();
