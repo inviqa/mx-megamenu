@@ -71,6 +71,8 @@ class Item extends AbstractModel
             'content_content' => $this->getDecodedContent($item['content_content']),
             'content_categories' => $this->getCategories($item),
             'content_category_type' => $item['content_category_type'],
+            'remove_category_anchor' => $item['remove_category_anchor'],
+            'custom_class' => $item['custom_class'],
             'footer_status' => $this->isEnabled($item, 'footer_status'),
             'footer_content' => $this->getDecodedContent($item['footer_content']),
             'leftside_status' => $this->isEnabled($item, 'leftside_status'),
@@ -173,6 +175,16 @@ class Item extends AbstractModel
                 if (!empty($item['link'])) {
                     $categories['category']['link'] = $this->getItemLink($item);
                 }
+
+                // Remove main category link if it is defined separately
+                if (!empty($item['remove_category_anchor'])) {
+                    $categories['category']['link'] = '';
+                }
+
+                $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/test.log');
+                $logger = new \Zend\Log\Logger();
+                $logger->addWriter($writer);
+                $logger->info($categories);
 
                 // Subcategories
                 if ($this->isChildrenCategoriesVisible($item)) {

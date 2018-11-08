@@ -144,6 +144,16 @@ class Form extends Generic
                 'name' => 'link'
             ]
         );
+        $general->addField(
+            'general_custom_class',
+            'text',
+            [
+                'label' => __('Custom Classes'),
+                'title' => __('Custom Classes'),
+                'required' => false,
+                'name' => 'custom_class'
+            ]
+        );
 
         $header = $form->addFieldset(
             'header_fieldset',
@@ -237,6 +247,17 @@ class Form extends Generic
                 'required' => false,
                 'options' => $this->getCategoryTypeChooserOptions(),
                 'name' => 'content_category_type',
+            ]
+        );
+        $content->addField(
+            'remove_category_anchor',
+            'MX\MegaMenu\Data\Form\Element\Toggle',
+            [
+                'label' => __('Remove Category Link'),
+                'title' => __('Remove Category Link'),
+                'required' => false,
+                'name' => 'remove_category_anchor',
+                'value' => Menu::STATUS_DISABLED
             ]
         );
 
