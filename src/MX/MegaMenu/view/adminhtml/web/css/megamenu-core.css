@@ -1,0 +1,16 @@
+@font-face {
+    font-family: 'font-awesome-icons';
+    src:    url('../fonts/fa-solid.eot?diou9j');
+    src:    url('../fonts/fa-solid.eot?diou9j#iefix') format('embedded-opentype'),
+    url('../fonts/fa-solid.ttf?diou9j') format('truetype'),
+    url('../fonts/fa-solid.woff?diou9j') format('woff'),
+    url('../fonts/fa-solid.woff2?diou9j') format('woff2'),
+    url('../fonts/fa-solid.svg?diou9j#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.admin__menu .level-0.item-mxmenuall > a:before {
+    font-family: 'font-awesome-icons';
+    content: '\f0c9';
+}
