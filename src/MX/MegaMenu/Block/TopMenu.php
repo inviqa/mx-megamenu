@@ -20,6 +20,8 @@ class TopMenu extends Template
 {
     const CACHE_KEY = 'MX_MEGAMENU_TOPMENU_BLOCK';
 
+    const CHILDREN_ALIAS = 'mx.megamenu.structure.children';
+
     /**
      * Store manager
      *
@@ -101,6 +103,21 @@ class TopMenu extends Template
     }
 
     /**
+     * Render children items
+     *
+     * @param array $item
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function renderChildren($item)
+    {
+        /** @var $block MX\MegaMenu\Block\TopMenu\Children */
+        $block = $this->getChildBlock(self::CHILDREN_ALIAS);
+        $block->setItem($item);
+
+        return $this->getChildHtml(self::CHILDREN_ALIAS, false);
+    }
+
+    /**
      * Can show content
      *
      * @param array $item
@@ -114,15 +131,6 @@ class TopMenu extends Template
             || !empty($item['rightside_status'])
             || !empty($item['footer_status'])
             || isset($item['children']);
-    }
-
-    /**
-     * @param array $item
-     * @return string
-     */
-    public function getCategoriesAdditionalClasses($item)
-    {
-        return $item['content_category_type'];
     }
 
     /**

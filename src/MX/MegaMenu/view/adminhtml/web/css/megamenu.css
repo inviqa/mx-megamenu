@@ -10,6 +10,18 @@
     font-weight: normal;
     font-style: normal;
 }
+@-webkit-keyframes blink {
+    0% { border-color: #eb5202; }
+    100% { border-color: #e3e3e3; }
+}
+@-moz-keyframes blink {
+    0% { border-color: #eb5202; }
+    100% { border-color: #e3e3e3; }
+}
+@-keyframes blink {
+    0% { border-color: #eb5202; }
+    100% { border-color: #e3e3e3; }
+}
 .fa {
     font-family: 'font-awesome-icons';
     font-size: 20px;
@@ -96,6 +108,11 @@
 }
 .megamenu-editor .structure .menu-item .drag-menu:hover {
     background: none;
+}
+.megamenu-editor .structure .menu-item.new {
+    animation: blink 1s linear 1s 3;
+    -webkit-animation: blink 1s linear 1s 3;
+    -moz-animation: blink 1s linear 1s 3;
 }
 .megamenu-editor .megamenu-tabs {
     display: none;

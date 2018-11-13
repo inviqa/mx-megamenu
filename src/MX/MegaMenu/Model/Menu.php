@@ -345,13 +345,43 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
             $parentId = $item['menu_item_parent_id'];
 
             $menuItem = $this->menuItemFactory->create();
+            $menuItemData = $menuItem->getItemData($item);
+
             if ($item['menu_item_parent_id'] == 0) {
-                $result[$itemId] = $menuItem->getItemData($item);
+                $result[$itemId] = $menuItemData;
             } else {
-                $result[$parentId]['children'][] = $menuItem->getItemData($item);
+                // 2nd level (1st child)
+                if (isset($result[$parentId])) {
+                    $result[$parentId]['children'][$itemId] = $menuItemData;
+                } else {
+                    // 3rd level (2nd child)
+                    $this->setChildrenItems($result, $item, $menuItemData);
+                }
             }
         }
-        
+
         return $result;
+    }
+
+    /**
+     * Set lower level children
+     *
+     * @param array $result
+     * @param array $item
+     * @param array $menuItemData
+     */
+    protected function setChildrenItems(&$result, $item, $menuItemData)
+    {
+        $parentId = $item['menu_item_parent_id'];
+
+        foreach ($result as $id => $child) {
+            if (isset($child['children'])) {
+                foreach ($child['children'] as $i => $ch) {
+                    if ($i == $parentId) {
+                        $result[$id]['children'][]['children'][] = $menuItemData;
+                    }
+                }
+            }
+        }
     }
 }
