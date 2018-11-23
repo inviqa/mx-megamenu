@@ -19,6 +19,7 @@ define([
         $nestableContainer,
         dataProviderLabel = 'data-provider',
         categoryNameLabel = 'category-label',
+        classnameLabel = 'classname',
         formKeyLabel = 'form_key',
         defaultMenuItemLabel = 'Menu Item';
 
@@ -26,7 +27,7 @@ define([
         options: {
             editUrl: '',
             saveUrl: '',
-            maxDepth: 2
+            maxDepth: 3
         },
 
         _create: function() {
@@ -61,6 +62,7 @@ define([
             // Add
             $actionsContainer.find('.btn-add').on('click', function() {
                 self.addMenuItem();
+                $("html, body").animate({ scrollTop: $(document).height() }, 1000); // Scroll to the bottom as the new menu item is added to the bottom
             });
 
             //Tabs
@@ -201,7 +203,8 @@ define([
                 var item = {
                     menu_item_id: this._getMaxMenuItemId() + 1,
                     menu_item_parent_id: 0,
-                    name: 'Menu Item'
+                    name: 'Menu Item',
+                    classname: 'new'
                 };
             }
 
@@ -262,7 +265,9 @@ define([
         },
 
         _canSaveMenuItem(item) {
-            return item.name !== categoryNameLabel && item.name != formKeyLabel;
+            return item.name !== categoryNameLabel
+                && item.name != formKeyLabel
+                && item.name !== classnameLabel;
         },
 
         _getDefaultsForMenuItem: function(itemId) {
@@ -271,6 +276,7 @@ define([
                 'status': 0,
                 'name': defaultMenuItemLabel,
                 'link': '',
+                'custom_class': '',
                 'header_status': 0,
                 'header_content': '',
                 'content_status': 0,
@@ -278,6 +284,7 @@ define([
                 'content_content': '',
                 'content_category_type': 'show',
                 'content_type': 'wysiwyg',
+                'remove_category_anchor': 0,
                 'leftside_status': 0,
                 'leftside_content': '',
                 'rightside_status': 0,

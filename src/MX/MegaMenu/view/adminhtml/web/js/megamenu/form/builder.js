@@ -29,7 +29,8 @@ define([
             var newItem = tmpl({
                 data: {
                     id: itemId,
-                    label: item['name']
+                    label: item['name'],
+                    classname: item['classname'] || ''
                 }
             });
 

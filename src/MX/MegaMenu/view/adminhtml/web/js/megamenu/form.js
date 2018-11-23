@@ -28,6 +28,7 @@ define([
 
             $form.find('.field-content_category').hide(); // Hide the category selector at content
             $form.find('.field-content_category_type').hide(); // Hide the category type selector at content
+            $form.find('.field-remove_category_anchor').hide(); // Hide the remove category link selector at content
 
             // Load saved params
             this._loadSavedParams();
@@ -160,10 +161,12 @@ define([
                 $form.find('.field-content_wysiwyg_' + itemId).hide();
                 $form.find('.field-content_category').hide();
                 $form.find('.field-content_category_type').hide();
+                $form.find('.field-remove_category_anchor').hide();
                 $element.show();
 
                 if (value === 'category') {
                     $form.find('.field-content_category_type').show();
+                    $form.find('.field-remove_category_anchor').show();
                 }
             }
         },

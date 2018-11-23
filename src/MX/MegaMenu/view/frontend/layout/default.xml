@@ -6,7 +6,9 @@
         <referenceBlock name="catalog.topnav" remove="true" />
         <referenceBlock name="store.menu">
             <block class="Magento\Framework\View\Element\Template" name="mx.megamenu.topnav" template="MX_MegaMenu::topmenu.phtml" ifconfig="mx_megamenu/megamenu/enable">
-                <block class="MX\MegaMenu\Block\TopMenu" name="mx.megamenu.structure" template="MX_MegaMenu::topmenu/structure.phtml" />
+                <block class="MX\MegaMenu\Block\TopMenu" name="mx.megamenu.structure" template="MX_MegaMenu::topmenu/structure.phtml">
+                    <block class="MX\MegaMenu\Block\TopMenu\Children" name="mx.megamenu.structure.children" template="MX_MegaMenu::topmenu/structure/children.phtml" />
+                </block>
             </block>
         </referenceBlock>
     </body>

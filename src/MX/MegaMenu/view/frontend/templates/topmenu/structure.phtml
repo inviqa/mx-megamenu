@@ -1,4 +1,5 @@
 <?php
+
 /** @var $block \MX\MegaMenu\Block\Topmenu */
 
 $structure = $block->getStructure();
@@ -8,7 +9,7 @@ $structure = $block->getStructure();
 <?php if ($structure): ?>
     <?php foreach ($structure as $item): ?>
         <?php if ($item['status']): ?>
-            <li class="level0 level-top parent mx-megamenu__item">
+            <li class="level0 level-top parent mx-megamenu__item <?php echo $item['custom_class']; ?>">
                 <a href="<?php echo $item['link']; ?>" class="nav-anchor mx-megamenu__link">
                     <span><?php echo $item['name']; ?></span>
                 </a>
@@ -25,48 +26,7 @@ $structure = $block->getStructure();
                                     <?php echo $item['leftside_content']; ?>
                                 </div>
                             <?php endif; ?>
-                            <?php if (isset($item['children'])): ?>
-                                <div class="mx-megamenu__categories">
-                                    <?php foreach ($item['children'] as $child): ?>
-                                        <?php if ($child['status']): ?>
-                                            <?php // Categories as children ?>
-                                            <?php if ($child['content_categories']): ?>
-                                                <div class="level1 mx-megamenu__item mx-megamenu__category">
-                                                    <?php $categories = $child['content_categories']; ?>
-                                                    <?php if ($categories['category']): ?>
-                                                        <?php $category = $categories['category']; ?>
-                                                        <a href="<?php echo $category['link'] ?: 'javascript:;'; ?>" class="nav-anchor mx-megamenu__link <?php echo $block->getCategoriesAdditionalClasses($child); ?>">
-                                                            <?php echo $category['name']; ?>
-                                                        </a>
-                                                        <ul class="mx-megamenu__submenu">
-                                                            <?php foreach ($categories['children'] as $subcategory): ?>
-                                                                <li class="mx-megamenu__category-item">
-                                                                    <a id="u-uid-<?php echo $subcategory['id']; ?>" class="mx-megamenu__link" href="<?php echo $subcategory['link']; ?>">
-                                                                        <span><?php echo $subcategory['name']; ?></span>
-                                                                    </a>
-                                                                </li>
-                                                            <?php endforeach; ?>
-                                                        </ul>
-                                                    <?php endif; ?>
-                                                </div>
-                                            <?php // Other item with link as child ?>
-                                            <?php elseif (!empty($child['link'])): ?>
-                                                <div class="level1 mx-megamenu__item mx-megamenu__category">
-                                                    <a href="<?php echo $child['link']?>" class="nav-anchor mx-megamenu__link <?php echo $block->getCategoriesAdditionalClasses($child); ?>">
-                                                        <?php echo $child['name']; ?>
-                                                    </a>
-                                                </div>
-                                            <?php endif; ?>
-                                        <?php endif; ?>
-                                    <?php endforeach; ?>
-                                </div>
-                            <?php else: // Content is displayed if no children stuff is found ?>
-                                <?php if ($item['content_status']): ?>
-                                    <div class="mx-megamenu__main-content">
-                                        <?php echo $item['content_content']; ?>
-                                    </div>
-                                <?php endif; ?>
-                            <?php endif; ?>
+                            <?php echo $block->renderChildren($item); ?>
                             <?php if ($item['rightside_status']): ?>
                                 <div class="mx-megamenu__sidebar mx-megamenu__sidebar--right">
                                     <?php echo $item['rightside_content']; ?>
