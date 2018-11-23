@@ -61,7 +61,7 @@ class Children extends Template
     public function getItemLevel($item)
     {
         $arrayDepth = $this->getArrayDepth($item);
-        if ($arrayDepth > 1 && isset($this->levels[$arrayDepth])) {
+        if (isset($this->levels[$arrayDepth])) {
             return $this->levels[$arrayDepth];
         }
 

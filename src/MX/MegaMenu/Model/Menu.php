@@ -347,7 +347,7 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
             $menuItem = $this->menuItemFactory->create();
             $menuItemData = $menuItem->getItemData($item);
 
-            if ($item['menu_item_parent_id'] == 0) {
+            if ($parentId == 0) {
                 $result[$itemId] = $menuItemData;
             } else {
                 // 2nd level (1st child)

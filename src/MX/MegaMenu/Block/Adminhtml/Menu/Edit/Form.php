@@ -3,6 +3,7 @@
 namespace MX\MegaMenu\Block\Adminhtml\Menu\Edit;
 
 use MX\MegaMenu\Model\Menu;
+        use MX\MegaMenu\Data\Form\Element\Toggle;
 use Magento\Backend\Block\Widget\Form\Generic;
 use Magento\Backend\Block\Template\Context;
 use Magento\Framework\Registry;
@@ -115,7 +116,7 @@ class Form extends Generic
         );
         $general->addField(
             'general_status',
-            'MX\MegaMenu\Data\Form\Element\Toggle',
+            Toggle::class,
             [
                 'label' => __('Enabled'),
                 'title' => __('Enabled'),
@@ -164,7 +165,7 @@ class Form extends Generic
         );
         $header->addField(
             'header_status',
-            'MX\MegaMenu\Data\Form\Element\Toggle',
+            Toggle::class,
             [
                 'label' => __('Status'),
                 'title' => __('Status'),
@@ -195,7 +196,7 @@ class Form extends Generic
         );
         $content->addField(
             'content_status',
-            'MX\MegaMenu\Data\Form\Element\Toggle',
+            Toggle::class,
             [
                 'label' => __('Status'),
                 'title' => __('Status'),
@@ -251,7 +252,7 @@ class Form extends Generic
         );
         $content->addField(
             'remove_category_anchor',
-            'MX\MegaMenu\Data\Form\Element\Toggle',
+            Toggle::class,
             [
                 'label' => __('Remove Category Link'),
                 'title' => __('Remove Category Link'),
@@ -270,7 +271,7 @@ class Form extends Generic
         );
         $leftside->addField(
             'leftside_status',
-            'MX\MegaMenu\Data\Form\Element\Toggle',
+            Toggle::class,
             [
                 'label' => __('Status'),
                 'title' => __('Status'),
@@ -301,7 +302,7 @@ class Form extends Generic
         );
         $rightside->addField(
             'rightside_status',
-            'MX\MegaMenu\Data\Form\Element\Toggle',
+            Toggle::class,
             [
                 'label' => __('Status'),
                 'title' => __('Status'),
@@ -332,7 +333,7 @@ class Form extends Generic
         );
         $footer->addField(
             'footer_status',
-            'MX\MegaMenu\Data\Form\Element\Toggle',
+            Toggle::class,
             [
                 'label' => __('Status'),
                 'title' => __('Status'),
