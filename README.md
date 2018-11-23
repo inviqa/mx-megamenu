@@ -32,6 +32,6 @@ composer require "inviqa/mx-megamenu"
 Enable the menu in the admin:
 MegaMenu > Settings > Enable Mega Menu
 
-Replace your current topmenu with the megamenu:
-Layout name is *mx.megamenu.topnav*
+The default topmenu will be automatically removed when the module is enabled:
+To move the megamenu in your layout structure the reference name is *mx.megamenu.topnav*
 
