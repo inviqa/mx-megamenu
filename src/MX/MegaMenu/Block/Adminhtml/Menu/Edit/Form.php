@@ -3,7 +3,7 @@
 namespace MX\MegaMenu\Block\Adminhtml\Menu\Edit;
 
 use MX\MegaMenu\Model\Menu;
-        use MX\MegaMenu\Data\Form\Element\Toggle;
+use MX\MegaMenu\Data\Form\Element\Toggle;
 use Magento\Backend\Block\Widget\Form\Generic;
 use Magento\Backend\Block\Template\Context;
 use Magento\Framework\Registry;
