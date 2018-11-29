@@ -1,3 +1,7 @@
+.nav-sections-item-content > .mx-megamenu {
+    display: block;
+}
+
 /* Fix the iOS background scrolling issue */
 .megamenu-init-toggle.nav-open,
 .megamenu-init-toggle body {
@@ -87,6 +91,11 @@
     .mx-megamenu .navigation .mx-megamenu__item .mx-megamenu__categories {
         display: flex;
         width: 100%;
+        flex-wrap: wrap;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        flex-direction: column;
+        max-height: 500px;
     }
 
     .mx-megamenu__main-content,
