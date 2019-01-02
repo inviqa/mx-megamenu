@@ -339,7 +339,6 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
     public function getProcessedMenuItems()
     {
         $result = [];
-
         foreach ($this->getSortedMenuItems() as $item) {
             $itemId = $item['menu_item_id'];
             $parentId = $item['menu_item_parent_id'];
@@ -373,12 +372,13 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
     protected function setChildrenItems(&$result, $item, $menuItemData)
     {
         $parentId = $item['menu_item_parent_id'];
+        $itemId = $item['menu_item_id'];
 
         foreach ($result as $id => $child) {
             if (isset($child['children'])) {
                 foreach ($child['children'] as $i => $ch) {
                     if ($i == $parentId) {
-                        $result[$id]['children'][]['children'][] = $menuItemData;
+                        $result[$id]['children'][$i]['children'][$itemId] = $menuItemData;
                     }
                 }
             }
