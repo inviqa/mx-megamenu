@@ -29,7 +29,7 @@ define([
             var newItem = tmpl({
                 data: {
                     id: itemId,
-                    label: item['name'],
+                    label: this.decodeContent('name', item['name']),
                     classname: item['classname'] || ''
                 }
             });
@@ -137,7 +137,7 @@ define([
                 return window.btoa(value);
             }
 
-            if (name.match('link')) {
+            if (name.match('link') || name === 'name') {
                 return window.btoa(value);
             }
 
@@ -152,7 +152,7 @@ define([
                 return this._convertContentForEditor(value);
             }
 
-            if (name.match('link')) {
+            if (name.match('link') || name === 'name') {
                 return window.atob(value);
             }
 

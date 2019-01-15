@@ -63,7 +63,7 @@ class Item extends AbstractModel
     {
         return [
             'status' => $this->isEnabled($item, 'status'),
-            'name' => $item['name'],
+            'name' => $this->getDecodedContent($item['name']),
             'link' => $this->getItemLink($item),
             'header_status' => $this->isEnabled($item, 'header_status'),
             'header_content' => $this->getDecodedContent($item['header_content']),
@@ -90,7 +90,8 @@ class Item extends AbstractModel
      */
     public function needEncode($name)
     {
-        return strpos($name, '_content') !== false || strpos($name, 'link') !== false;
+        return strpos($name, '_content') !== false || strpos($name, 'link') !== false
+            || $name === 'name';
     }
 
     /**
