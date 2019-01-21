@@ -246,7 +246,7 @@ define([
                 $nameElement = $element.find('.form').find('.menu_item_' + $element.data('id') + '_name');
                 menuItemNameValue = $nameElement.val();
                 menuItemNameValue = JSON.parse(menuItemNameValue);
-                menuItemName = menuItemNameValue.value;
+                menuItemName = formBuilder().decodeContent('name', menuItemNameValue.value);
             }
 
             menuDialog().openDialog(this.options.editUrl + additionalParams, menuItemName);
