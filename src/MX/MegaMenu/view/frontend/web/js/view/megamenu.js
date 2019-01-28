@@ -41,6 +41,8 @@ define([
 
             this._adjustSubMenuItems();
 
+            this._fixFirstSubCategoryItem();
+
             // Add class for nav-anchor where the link has href
             this.element.find('.mx-megamenu__item .mx-megamenu__link').each(function(i, item) {
                 if (self._hasSubmenu($(item))) {
@@ -136,6 +138,14 @@ define([
                 $parent.find('.mx-megamenu__item').each(function(i, item) {
                   $subMenu.append($(item));
                 });
+            });
+        },
+
+        // Currently the first item on level1 is a duplicate of the parent category so it should be removed
+        // TODO: fix the rendering
+        _fixFirstSubCategoryItem: function() {
+            $('.level0.mx-megamenu__submenu').find('.mx-megamenu__content').each(function(i, item) {
+                $(this).find('.level1.mx-megamenu__item:first').remove();
             });
         },
 
