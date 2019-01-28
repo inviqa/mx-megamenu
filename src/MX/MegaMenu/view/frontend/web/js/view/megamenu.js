@@ -39,6 +39,8 @@ define([
                 });
             }
 
+            this._adjustSubMenuItems();
+
             // Add class for nav-anchor where the link has href
             this.element.find('.mx-megamenu__item .mx-megamenu__link').each(function(i, item) {
                 if (self._hasSubmenu($(item))) {
@@ -119,6 +121,21 @@ define([
                         }
                     });
                 }
+            });
+        },
+
+        // Adjust sub menu items where wrapper is defined
+        _adjustSubMenuItems: function() {
+            var $parent,
+                $subMenu;
+
+            $('.mx-megamenu__submenu.wrapper').each(function(wrapperIndex, wrapperItem) {
+                $subMenu = $(this);
+                $parent = $subMenu.parent();
+
+                $parent.find('.mx-megamenu__item').each(function(i, item) {
+                  $subMenu.append($(item));
+                });
             });
         },
 
