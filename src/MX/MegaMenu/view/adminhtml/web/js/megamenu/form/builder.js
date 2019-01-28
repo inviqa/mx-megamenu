@@ -152,11 +152,26 @@ define([
                 return this._convertContentForEditor(value);
             }
 
-            if (name.match('link') || name === 'name') {
+            if (name === 'name') {
+                value = window.atob(value);
+                value = this._decodeSpecialCharacters(value);
+
+                return this._htmlEntityDecode(value);
+            }
+
+            if (name.match('link')) {
                 return window.atob(value);
             }
 
             return value;
+        },
+
+        _htmlEntityDecode: function(content) {
+            var $elem = $('<div/>');
+
+            $elem.html(content);
+
+            return $elem.html().replace(/&amp;/g, '&');
         },
 
         /**

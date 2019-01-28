@@ -6,56 +6,56 @@ $item = $block->getItem();
 $levelClass = 'level' . $block->getItemLevel($item);
 
 ?>
-
-<?php if (isset($item['children'])): ?>
-    <div class="mx-megamenu__categories children <?php echo $levelClass; ?>">
-        <?php foreach ($item['children'] as $childId => $child): ?>
-            <?php if (isset($child['children'])):  //There is one more level ?>
-                <?php echo $block->getParentBlock()->renderChildren($child); ?>
-            <?php else: ?>
-                <?php if ($child['status']): ?>
-                    <?php // Categories as children ?>
-                    <?php if ($child['content_categories']): ?>
-                        <div class="<?php echo $levelClass; ?> mx-megamenu__item mx-megamenu__category category-item <?php echo $child['custom_class']; ?>">
-                            <?php $categories = $child['content_categories']; ?>
-                            <?php if ($categories['category']): ?>
-                                <?php $category = $categories['category']; ?>
-                                <?php $categoryLink = 'javascript:;'; ?>
-                                <?php if (!empty($category['link'])): ?>
-                                    <?php $categoryLink = $category['link']; ?>
-                                <?php endif; ?>
-                                <a href="<?php echo $categoryLink; ?>" class="nav-anchor mx-megamenu__link <?php echo $item['content_category_type']; ?>">
-                                    <?php echo $category['name']; ?>
+<?php if ($item['status']): ?>
+    <?php if (!empty($item['content_categories'])): // Render category items ?>
+        <div class="mx-megamenu__item mx-megamenu__category category-item <?php echo $item['custom_class']; ?>">
+            <?php $categories = $item['content_categories']; ?>
+            <?php if (isset($categories['category'])): ?>
+                <?php $category = $categories['category']; ?>
+                <?php $categoryLink = 'javascript:;'; ?>
+                <?php if (!empty($category['link'])): ?>
+                    <?php $categoryLink = $category['link']; ?>
+                <?php endif; ?>
+                <a href="<?php echo $categoryLink; ?>" class="nav-anchor mx-megamenu__link <?php echo $item['content_category_type']; ?>">
+                    <span><?php echo $category['name']; ?></span>
+                </a>
+                <?php if (count($categories['children'])): ?>
+                    <div class="mx-megamenu__submenu">
+                        <?php foreach ($categories['children'] as $subcategory): ?>
+                            <div class="mx-megamenu__category-item category-item">
+                                <a id="u-uid-<?php echo $subcategory['id']; ?>" class="mx-megamenu__link" href="<?php echo $subcategory['link']; ?>">
+                                    <span><?php echo $subcategory['name']; ?></span>
                                 </a>
-                                <?php if (count($categories['children'])): ?>
-                                    <ul class="mx-megamenu__submenu">
-                                        <?php foreach ($categories['children'] as $subcategory): ?>
-                                            <li class="mx-megamenu__category-item category-item">
-                                                <a id="u-uid-<?php echo $subcategory['id']; ?>" class="mx-megamenu__link" href="<?php echo $subcategory['link']; ?>">
-                                                    <span><?php echo $subcategory['name']; ?></span>
-                                                </a>
-                                            </li>
-                                        <?php endforeach; ?>
-                                    </ul>
-                                <?php endif; ?>
-                            <?php endif; ?>
-                        </div>
-                        <?php // Other item with link as child ?>
-                    <?php elseif (!empty($child['link'])): ?>
-                        <div class="<?php echo $levelClass; ?> mx-megamenu__item mx-megamenu__category category-item <?php echo $child['custom_class']; ?>">
-                            <a href="<?php echo $child['link']?>" class="nav-anchor mx-megamenu__link <?php echo $child['content_category_type']; ?>">
-                                <?php echo $child['name']; ?>
-                            </a>
-                        </div>
-                    <?php endif; ?>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
                 <?php endif; ?>
             <?php endif; ?>
+        </div>
+    <?php elseif (!empty($item['link'])): // Render custom items ?>
+        <div class="<?php echo $levelClass; ?> mx-megamenu__item mx-megamenu__category category-item <?php echo $item['custom_class']; ?>">
+            <a href="<?php echo $item['link']?>" class="nav-anchor mx-megamenu__link">
+                <span><?php echo $item['name']; ?></span>
+            </a>
+            <?php if (isset($item['wrapper'])): ?>
+                <div class="mx-megamenu__submenu wrapper">
+            <?php endif; ?>
+        </div>
+    <?php else: ?>
+        <?php if ($item['content_status']): // Content is displayed if no children stuff is found ?>
+            <div class="mx-megamenu__main-content">
+                <?php echo $item['content_content']; ?>
+            </div>
+        <?php endif; ?>
+    <?php endif; ?>
+
+    <?php if (isset($item['children'])): //There is one more level specified ?>
+        <?php foreach ($item['children'] as $childId => $child): ?>
+            <?php echo $block->getParentBlock()->renderChildren($child); ?>
         <?php endforeach; ?>
-    </div>
-<?php else: // Content is displayed if no children stuff is found ?>
-    <?php if ($item['content_status']): ?>
-        <div class="mx-megamenu__main-content">
-            <?php echo $item['content_content']; ?>
+    <?php endif; ?>
+
+    <?php if (isset($item['wrapper'])): ?>
         </div>
     <?php endif; ?>
 <?php endif; ?>

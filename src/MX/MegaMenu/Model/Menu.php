@@ -378,6 +378,7 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
             if (isset($child['children'])) {
                 foreach ($child['children'] as $i => $ch) {
                     if ($i == $parentId) {
+                        $result[$id]['children'][$i]['wrapper'] = true; // Add wrapper for 3rd level items
                         $result[$id]['children'][$i]['children'][$itemId] = $menuItemData;
                     }
                 }
