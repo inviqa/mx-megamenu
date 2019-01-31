@@ -26,7 +26,7 @@ $structure = $block->getStructure();
                                     <?php echo $item['leftside_content']; ?>
                                 </div>
                             <?php endif; ?>
-                            <?php echo $block->renderChildren($item); ?>
+                            <?php echo $block->renderChildren($item, true); ?>
                             <?php if ($item['rightside_status']): ?>
                                 <div class="mx-megamenu__sidebar mx-megamenu__sidebar--right">
                                     <?php echo $item['rightside_content']; ?>

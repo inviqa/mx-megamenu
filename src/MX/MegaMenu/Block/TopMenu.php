@@ -106,12 +106,14 @@ class TopMenu extends Template
      * Render children items
      *
      * @param array $item
+     * @param boolean $firstLevelChild
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function renderChildren($item)
+    public function renderChildren($item, $firstLevelChild = false)
     {
         /** @var $block MX\MegaMenu\Block\TopMenu\Children */
         $block = $this->getChildBlock(self::CHILDREN_ALIAS);
+        $block->setFirst($firstLevelChild); // First level child shouldn't be rendered again as it is already rendered in the parent
         $block->setItem($item);
 
         return $this->getChildHtml(self::CHILDREN_ALIAS, false);

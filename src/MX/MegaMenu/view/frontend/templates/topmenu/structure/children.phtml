@@ -3,7 +3,9 @@
 /** @var $block \MX\MegaMenu\Block\Topmenu\Children */
 
 $item = $block->getItem();
-$levelClass = 'level' . $block->getItemLevel($item);
+$level = $block->getItemLevel($item);
+$levelClass = 'level' . $level;
+$first = $block->getFirst();
 
 ?>
 <?php if ($item['status']): ?>
@@ -32,7 +34,7 @@ $levelClass = 'level' . $block->getItemLevel($item);
                 <?php endif; ?>
             <?php endif; ?>
         </div>
-    <?php elseif (!empty($item['link'])): // Render custom items ?>
+    <?php elseif (!empty($item['link']) && !$first): // Render custom items and does not duplicate parent item as the main item is pulled through ?>
         <div class="<?php echo $levelClass; ?> mx-megamenu__item mx-megamenu__category category-item <?php echo $item['custom_class']; ?>">
             <a href="<?php echo $item['link']?>" class="nav-anchor mx-megamenu__link">
                 <span><?php echo $item['name']; ?></span>
