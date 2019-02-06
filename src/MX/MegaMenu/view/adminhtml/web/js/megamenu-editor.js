@@ -203,7 +203,7 @@ define([
                 var item = {
                     menu_item_id: this._getMaxMenuItemId() + 1,
                     menu_item_parent_id: 0,
-                    name: 'Menu Item',
+                    name: formBuilder().encodeContent('name', defaultMenuItemLabel),
                     classname: 'new'
                 };
             }
