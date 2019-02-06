@@ -24,12 +24,13 @@ define([
 
             // Build main list element
             var tmpl = mageTemplate(menuItemTemplate),
-                $parentElement;
+                $parentElement,
+                label = this.decodeContent('name', item['name']);
 
             var newItem = tmpl({
                 data: {
                     id: itemId,
-                    label: this.decodeContent('name', item['name']),
+                    label: label,
                     classname: item['classname'] || ''
                 }
             });
