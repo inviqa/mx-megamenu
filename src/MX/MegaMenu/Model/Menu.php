@@ -3,6 +3,7 @@
 namespace MX\MegaMenu\Model;
 
 use MX\MegaMenu\Model\Menu\ItemFactory as MenuItemFactory;
+use MX\MegaMenu\Model\Menu\Item;
 use MX\MegaMenu\Api\Data\MenuInterface;
 use MX\MegaMenu\Model\ResourceModel\Menu as ResourceMenu;
 use Magento\Framework\Model\AbstractModel;
@@ -351,9 +352,11 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
             } else {
                 // 2nd level (1st child)
                 if (isset($result[$parentId])) {
+                    $menuItemData['level'] = Item::LEVEL_1;
                     $result[$parentId]['children'][$itemId] = $menuItemData;
                 } else {
                     // 3rd level (2nd child)
+                    $menuItemData['level'] = Item::LEVEL_2;
                     $this->setChildrenItems($result, $item, $menuItemData);
                 }
             }
