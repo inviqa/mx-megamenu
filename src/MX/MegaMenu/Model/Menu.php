@@ -352,11 +352,11 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
             } else {
                 // 2nd level (1st child)
                 if (isset($result[$parentId])) {
-                    $menuItemData['level'] = Item::LEVEL_1;
+                    $menuItemData['level'] = Item::LEVEL_2;
                     $result[$parentId]['children'][$itemId] = $menuItemData;
                 } else {
                     // 3rd level (2nd child)
-                    $menuItemData['level'] = Item::LEVEL_2;
+                    $menuItemData['level'] = Item::LEVEL_3;
                     $this->setChildrenItems($result, $item, $menuItemData);
                 }
             }
