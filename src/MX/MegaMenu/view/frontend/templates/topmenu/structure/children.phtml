@@ -10,9 +10,9 @@ $first = $block->getFirst();
 ?>
 <?php if ($item['status']): ?>
     <?php if (!empty($item['content_categories'])): // Render category items ?>
-        <div class="mx-megamenu__item mx-megamenu__category category-item <?php echo $item['custom_class']; ?>">
+        <div class="<?php echo $levelClass ?> mx-megamenu__item mx-megamenu__category category-item <?php echo $item['custom_class']; ?>">
             <?php $categories = $item['content_categories']; ?>
-            <?php if (isset($categories['category'])): ?>
+            <?php if (!empty($categories['category'])): ?>
                 <?php $category = $categories['category']; ?>
                 <?php $categoryLink = 'javascript:;'; ?>
                 <?php if (!empty($category['link'])): ?>
@@ -24,7 +24,7 @@ $first = $block->getFirst();
                 <?php if (count($categories['children'])): ?>
                     <div class="mx-megamenu__submenu">
                         <?php foreach ($categories['children'] as $subcategory): ?>
-                            <div class="mx-megamenu__category-item category-item">
+                            <div class="mx-megamenu__category-item category-item <?php echo 'level' . ($level + 1) ?>">
                                 <a id="u-uid-<?php echo $subcategory['id']; ?>" class="mx-megamenu__link" href="<?php echo $subcategory['link']; ?>">
                                     <span><?php echo $subcategory['name']; ?></span>
                                 </a>
