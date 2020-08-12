@@ -3,6 +3,7 @@ define([
     'mage/template',
     'MXMegaMenuFormBuilder',
     'MXMegaMenuFormDialog',
+    'mage/validation',
     'nestable',
     'mage/adminhtml/browser',
     'jquery/ui'
@@ -42,6 +43,8 @@ define([
 
             this.bind();
             this.build();
+
+            $settingsForm.mage('validation');
         },
 
         bind: function() {
@@ -80,7 +83,9 @@ define([
 
             // Save
             $saveButton.on('click', function() {
-                self.save();
+                if ($settingsForm.valid()) {
+                    self.save();
+                }
             });
         },
 
